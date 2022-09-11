@@ -1,3 +1,4 @@
+import 'package:codingsolution/features/codingsolution/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -18,23 +19,23 @@ extension StringExtension on String {
       dismissAllToast(showAnim: true);
 
       showToastWidget(
-        Row(
-          children: [
-            Text(message),
-            const SizedBox(width: 5),
-            Container(
-              height: 5,
-              width: 5,
-              color: Colors.redAccent,
-            )
-          ],
-        ),
-        // Toast(
-        //   // bgColor: Palette.red,
-        //   icon: Icons.error,
-        //   message: message,
-        //   textColor: Colors.white,
+        // Row(
+        //   children: [
+        //     Text(message),
+        //     const SizedBox(width: 5),
+        //     Container(
+        //       height: 5,
+        //       width: 5,
+        //       color: Colors.redAccent,
+        //     )
+        //   ],
         // ),
+        Toast(
+          // bgColor: Palette.red,
+          icon: Icons.error,
+          message: message,
+          textColor: Colors.white,
+        ),
         dismissOtherToast: true,
         position: ToastPosition.top,
         duration: const Duration(seconds: 3),
@@ -53,26 +54,26 @@ extension StringExtension on String {
 
       // showToast(msg)
       showToastWidget(
-        Row(
-          children: [
-            Text(message),
-            const SizedBox(width: 5),
-            Container(
-              height: 5,
-              width: 5,
-              color: Colors.greenAccent,
-            )
-          ],
-        ),
-        // Toast(
-        //   bgColor: Colors.green,
-        //   icon: Icons.check_circle,
-        //   message: message,
-        //   textColor: Colors.white,
+        // Row(
+        //   children: [
+        //     Text(message),
+        //     const SizedBox(width: 5),
+        //     Container(
+        //       height: 5,
+        //       width: 5,
+        //       color: Colors.greenAccent,
+        //     )
+        //   ],
         // ),
+        Toast(
+          bgColor: Colors.green,
+          icon: Icons.check_circle,
+          message: message,
+          textColor: Colors.white,
+        ),
         dismissOtherToast: true,
         position: ToastPosition.top,
-        duration: const Duration(seconds: 3),
+        duration: const Duration(seconds: 5),
       );
     } catch (e) {
       log.e("$e");
@@ -86,19 +87,19 @@ extension StringExtension on String {
       dismissAllToast(showAnim: true);
 
       showToastWidget(
-        Row(
-          children: [
-            Text(message),
-            const SizedBox(width: 5),
-            const CircularProgressIndicator(),
-          ],
-        ),
-        // Toast(
-        //   bgColor: Colors.black,
-        //   icon: Icons.info,
-        //   message: message,
-        //   textColor: Colors.white,
+        // Row(
+        //   children: [
+        //     Text(message),
+        //     const SizedBox(width: 5),
+        //     const CircularProgressIndicator(),
+        //   ],
         // ),
+        Toast(
+          bgColor: Colors.black,
+          icon: Icons.info,
+          message: message,
+          textColor: Colors.white,
+        ),
         dismissOtherToast: true,
         position: ToastPosition.top,
         duration: const Duration(seconds: 3),
