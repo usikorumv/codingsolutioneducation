@@ -33,7 +33,6 @@ migrate_working_dir/
 /build/
 /android/
 /ios/
-/web/
 analysis_options.yaml
 codingsolution.iml
 pubspec.lock

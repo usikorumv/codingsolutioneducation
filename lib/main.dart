@@ -157,8 +157,7 @@ class AppRoute {
         }
       }
 
-      if ((isLoginPage || isRegisterPage) &&
-          sl<AuthLocalDataSource>().isLoggedIn) {
+      if (sl<AuthLocalDataSource>().isLoggedIn) {
         return Routes.root.path;
       }
 
