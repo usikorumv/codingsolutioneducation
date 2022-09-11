@@ -10,10 +10,10 @@ abstract class AuthRemoteDatasource {
   Future<LoginResponse> login(LoginParams loginParams);
 }
 
-class CodingSolutionAuthRemoteDatasourceImpl implements AuthRemoteDatasource {
+class CodingSolutionRemoteDatasourceImpl implements AuthRemoteDatasource {
   final DioClient _client;
 
-  CodingSolutionAuthRemoteDatasourceImpl(this._client);
+  CodingSolutionRemoteDatasourceImpl(this._client);
 
   @override
   Future<RegisterResponse> register(
@@ -26,10 +26,11 @@ class CodingSolutionAuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       );
 
       final result = RegisterResponse.fromJson(response.data);
-      if (response.statusCode == 200) {
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return result;
       } else {
-        throw ServerException(result.error);
+        throw ServerException("Error");
       }
     } on ServerException catch (e) {
       throw ServerException(e.message);

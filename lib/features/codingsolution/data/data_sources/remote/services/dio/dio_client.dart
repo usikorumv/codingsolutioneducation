@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 
 import 'package:codingsolution/features/codingsolution/data/data.dart';
-import 'package:codingsolution/locator_service.dart';
+import 'package:codingsolution/service_locator.dart';
 
 class DioClient {
-  String baseUrl = "http://codingsolutionedu.com:8000";
+  String baseUrl = "http://107.191.52.78:8001";
 
   String? _auth;
   bool _isUnitTest = false;
@@ -69,7 +69,7 @@ class DioClient {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             if (_auth != null) ...{
-              'Authorization': _auth,
+              'Authorization': "Bearer ${_auth!}",
             },
           },
           receiveTimeout: 60000,

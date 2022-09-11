@@ -15,10 +15,10 @@ abstract class AuthLocalDataSource {
 const IS_LOGGED_IN = "IS_LOGGED_IN";
 const TOKEN = "TOKEN";
 
-class CodingSolutionAuthLocalDataSourceImpl implements AuthLocalDataSource {
+class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   final SharedPreferences preferences;
 
-  CodingSolutionAuthLocalDataSourceImpl({required this.preferences});
+  AuthLocalDataSourceImpl({required this.preferences});
 
   @override
   set isLoggedIn(bool value) => preferences.setBool(IS_LOGGED_IN, value);

@@ -8,15 +8,12 @@ class CoursesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
 
     return Column(
-      children: <Widget>[
-        ConstrainedBox(
-          constraints: BoxConstraints(minHeight: size.height),
-          child: const Courses(),
-        ),
-        const Footer(),
+      children: [
+        Courses(),
+        Footer(),
       ],
     );
   }

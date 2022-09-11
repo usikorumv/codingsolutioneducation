@@ -2,38 +2,22 @@ import 'package:equatable/equatable.dart';
 
 import 'package:codingsolution/features/codingsolution/domain/domain.dart';
 
-
 class RegisterResponse extends Equatable {
-  final int? id;
-  final String? token;
-  final String? error;
+  final String message;
 
-  const RegisterResponse({
-    this.id,
-    this.token,
-    this.error,
-  });
+  const RegisterResponse({required this.message});
 
-  RegisterResponse.fromJson(dynamic json)
-      : id = json['id'] as int?,
-        token = json['token'] as String?,
-        error = json['error'] as String?;
+  const RegisterResponse.fromJson(dynamic json) : message = json;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['id'] = id;
-    map['token'] = token;
-    map['error'] = error;
+    map['message'] = message;
 
     return map;
   }
 
-  Register toEntity() => Register(token);
+  Register toEntity() => Register(message);
 
   @override
-  List<Object?> get props => [
-        id,
-        token,
-        error,
-      ];
+  List<Object?> get props => [message];
 }

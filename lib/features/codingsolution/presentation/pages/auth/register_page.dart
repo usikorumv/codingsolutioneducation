@@ -1,11 +1,13 @@
+import 'package:codingsolution/common/constants.dart';
+import 'package:codingsolution/features/codingsolution/domain/domain.dart';
+import 'package:codingsolution/features/codingsolution/presentation/presentation.dart';
+import 'package:codingsolution/main.dart';
+import 'package:codingsolution/utils/utils.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:codingsolution/common/constants.dart';
-import 'package:codingsolution/features/codingsolution/domain/domain.dart';
-import 'package:codingsolution/features/codingsolution/presentation/widgets/text_f.dart';
-import 'package:codingsolution/utils/utils.dart';
+import 'package:go_router/go_router.dart';
 
 import 'cubit/cubit.dart';
 
@@ -19,136 +21,167 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   /// Controller
   final _conEmail = TextEditingController();
-
   final _conPassword = TextEditingController();
+  final _conPasswordRepeat = TextEditingController();
 
   /// Focus Node
   final _fnEmail = FocusNode();
-
   final _fnPassword = FocusNode();
+  final _fnPasswordRepeat = FocusNode();
 
+  /// Handle state visibility password
   bool _isPasswordHide = true;
+  bool _isPasswordRepeatHide = true;
 
-  /// Global key
+  /// Global key form
   final _keyForm = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocListener<LoginCubit, LoginState>(
+        child: BlocListener<RegisterCubit, RegisterState>(
           listener: (_, state) {
-            log.d("loginState $state");
-            switch (state.status) {
-              case LoginStatus.loading:
-                context.show();
-                break;
-              case LoginStatus.success:
-                context.dismiss();
-                state.login?.token.toString().toToastSuccess();
+            log.d("registerState $state");
 
-                TextInput.finishAutofillContext();
+            if (state is RegisterLoading) {
+              context.show();
+            }
+            if (state is RegisterSuccess) {
+              context.dismiss();
+              state.register?.message.toString().toToastSuccess();
 
-                break;
-              case LoginStatus.failure:
-                context.dismiss();
-                state.message.toString().toToastError();
-                break;
+              TextInput.finishAutofillContext();
+
+              context.goNamed(Routes.register.path);
+            }
+            if (state is RegisterFailure) {
+              context.dismiss();
+              state.message.toString().toToastError();
             }
           },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
-            child: AutofillGroup(
-              child: Form(
-                key: _keyForm,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Welcome",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 20),
-                    TextF(
-                      autofillHints: const [AutofillHints.email],
-                      key: const Key("email"),
-                      curFocusNode: _fnEmail,
-                      nextFocusNode: _fnPassword,
-                      textInputAction: TextInputAction.next,
-                      controller: _conEmail,
-                      keyboardType: TextInputType.emailAddress,
-                      prefixIcon: Icon(
-                        Icons.alternate_email,
-                        color: Theme.of(context).textTheme.bodyText1?.color,
-                      ),
-                      hintText: "example@mail.com",
-                      hint: "Email",
-                      validator: (String? value) => value != null
-                          ? (!value.isValidEmail() ? "Invalid Email" : null)
-                          : null,
-                    ),
-                    const SizedBox(height: 20),
-                    TextF(
-                      autofillHints: const [AutofillHints.password],
-                      key: const Key("password"),
-                      curFocusNode: _fnPassword,
-                      textInputAction: TextInputAction.done,
-                      controller: _conPassword,
-                      keyboardType: TextInputType.text,
-                      prefixIcon: Icon(
-                        Icons.lock_outline,
-                        color: Theme.of(context).textTheme.bodyText1?.color,
-                      ),
-                      obscureText: _isPasswordHide,
-                      hintText: '••••••••••••',
-                      maxLine: 1,
-                      hint: "Password",
-                      suffixIcon: IconButton(
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                        onPressed: () {
-                          setState(
-                            () {
-                              _isPasswordHide = !_isPasswordHide;
-                            },
-                          );
-                        },
-                        icon: Icon(
-                          _isPasswordHide
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+          child: Center(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(Dimens.space24),
+                child: Form(
+                  key: _keyForm,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextF(
+                        key: const Key("email"),
+                        curFocusNode: _fnEmail,
+                        nextFocusNode: _fnPassword,
+                        textInputAction: TextInputAction.next,
+                        controller: _conEmail,
+                        keyboardType: TextInputType.emailAddress,
+                        prefixIcon: Icon(
+                          Icons.alternate_email,
+                          color: Theme.of(context).textTheme.bodyText1?.color,
                         ),
+                        hintText: 'johndoe@gmail.com',
+                        hint: "",
+                        validator: (String? value) => value != null
+                            ? (!value.isValidEmail() ? "" : null)
+                            : null,
                       ),
-                      validator: (String? value) => value != null
-                          ? (value.length < 3 ? "Invalid Password" : null)
-                          : null,
-                    ),
-                    const SizedBox(height: 50),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: kPrimaryColor),
-                      onPressed: () {
-                        if (_keyForm.currentState?.validate() ?? false) {
-                          context.read<LoginCubit>().login(
-                                LoginParams(
-                                  email: _conEmail.text,
-                                  password: _conPassword.text,
-                                ),
-                              );
-                        }
-                      },
-                      child: const SizedBox(
-                        child: Center(
-                          child: Text(
-                            "Login",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
+                      TextF(
+                        key: const Key("password"),
+                        curFocusNode: _fnPassword,
+                        nextFocusNode: _fnPasswordRepeat,
+                        textInputAction: TextInputAction.next,
+                        controller: _conPassword,
+                        keyboardType: TextInputType.text,
+                        prefixIcon: Icon(
+                          Icons.lock_outline,
+                          color: Theme.of(context).textTheme.bodyText1?.color,
+                        ),
+                        obscureText: _isPasswordHide,
+                        hintText: '••••••••••••',
+                        maxLine: 1,
+                        hint: "",
+                        suffixIcon: IconButton(
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                          onPressed: () {
+                            setState(
+                              () {
+                                _isPasswordHide = !_isPasswordHide;
+                              },
+                            );
+                          },
+                          icon: Icon(
+                            _isPasswordHide
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                           ),
                         ),
+                        validator: (String? value) => value != null
+                            ? (value.length < 3 ? "" : null)
+                            : null,
                       ),
-                    ),
-                  ],
+                      TextF(
+                        key: const Key("repeat_password"),
+                        curFocusNode: _fnPasswordRepeat,
+                        textInputAction: TextInputAction.done,
+                        controller: _conPasswordRepeat,
+                        keyboardType: TextInputType.text,
+                        prefixIcon: Icon(
+                          Icons.lock_outline,
+                          color: Theme.of(context).textTheme.bodyText1?.color,
+                        ),
+                        obscureText: _isPasswordRepeatHide,
+                        hintText: '••••••••••••',
+                        maxLine: 1,
+                        hint: "",
+                        suffixIcon: IconButton(
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                          onPressed: () {
+                            setState(
+                              () {
+                                _isPasswordRepeatHide = !_isPasswordRepeatHide;
+                              },
+                            );
+                          },
+                          icon: Icon(
+                            _isPasswordRepeatHide
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                        ),
+                        validator: (String? value) => value != null
+                            ? (value != _conPassword.text ? "" : null)
+                            : null,
+                      ),
+                      SpacerV(value: Dimens.space24),
+                      Button(
+                        key: const Key("btn_register"),
+                        color: kPrimaryColor,
+                        title: "Register Account",
+                        onPressed: () {
+                          /// Validate form first
+                          if (_keyForm.currentState?.validate() ?? false) {
+                            context.read<RegisterCubit>().register(
+                                  CodeSolutionRegisterParams(
+                                    email: _conEmail.text,
+                                    password: _conPassword.text,
+                                  ),
+                                );
+                          }
+                        },
+                      ),
+                      Button(
+                        key: const Key("btn_login"),
+                        color: kPrimaryColor,
+                        title: "Go to Login Page",
+                        onPressed: () {
+                          context.goNamed(Routes.login.name);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

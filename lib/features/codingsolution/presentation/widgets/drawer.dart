@@ -71,25 +71,22 @@ class MainDrawer extends StatelessWidget {
           ),
         );
       },
-      items: [
+      items: const [
         SidebarXItem(
           icon: Icons.home,
           label: 'Home',
-          onTap: () {
-            debugPrint('Home');
-          },
         ),
-        const SidebarXItem(
+        SidebarXItem(
           icon: Icons.book,
           label: 'Courses',
         ),
-        const SidebarXItem(
-          icon: Icons.info,
-          label: 'About',
+        SidebarXItem(
+          icon: Icons.bookmark,
+          label: 'Enrolled Courses',
         ),
-        const SidebarXItem(
-          icon: Icons.favorite,
-          label: 'Favorite',
+        SidebarXItem(
+          icon: Icons.logout,
+          label: "Logout"
         ),
       ],
     );

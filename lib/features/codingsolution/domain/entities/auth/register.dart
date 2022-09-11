@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 class Register extends Equatable {
-  final String? token;
+  final String message;
 
-  const Register(this.token);
+  const Register(this.message);
 
   @override
-  List<Object?> get props => [token];
+  List<Object?> get props => [message];
 }

@@ -1,5 +1,8 @@
+import 'package:codingsolution/features/codingsolution/presentation/presentation.dart';
+import 'package:codingsolution/features/codingsolution/presentation/widgets/loading.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_auth_app/presentation/presentation.dart';
+
+
 
 extension ContextExtensions on BuildContext {
   bool isMobile() {
@@ -51,14 +54,13 @@ extension ContextExtensions on BuildContext {
               color: Colors.transparent,
               child: Center(
                 child: Container(
-                  // decoration: BoxDecoration(
-                  //   color: Palette.white,
-                  //   borderRadius: BorderRadius.circular(Dimens.cornerRadius),
-                  // ),
-                  // margin: EdgeInsets.symmetric(horizontal: Dimens.space30),
-                  // padding: EdgeInsets.all(Dimens.space24),
-                  // child: Wrap(children: const [Loading()]),
-                  child: CircularProgressIndicator(),
+                  decoration: BoxDecoration(
+                    color: Palette.white,
+                    borderRadius: BorderRadius.circular(Dimens.cornerRadius),
+                  ),
+                  margin: EdgeInsets.symmetric(horizontal: Dimens.space30),
+                  padding: EdgeInsets.all(Dimens.space24),
+                  child: Wrap(children: const [Loading()]),
                 ),
               ),
             ),

@@ -1,13 +1,15 @@
-import 'package:codingsolution/features/codingsolution/presentation/pages/about_page.dart';
+import 'package:codingsolution/common/constants.dart';
+import 'package:codingsolution/common/globals.dart';
+import 'package:codingsolution/features/codingsolution/presentation/pages/courses/courses_page.dart';
+import 'package:codingsolution/features/codingsolution/presentation/pages/enrolled_courses_page.dart';
+import 'package:codingsolution/features/codingsolution/presentation/pages/home/home_page.dart';
+import 'package:codingsolution/features/codingsolution/presentation/widgets/drawer.dart';
+import 'package:codingsolution/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
 
-import 'package:codingsolution/features/codingsolution/presentation/pages/courses/courses_page.dart';
-import 'package:codingsolution/features/codingsolution/presentation/pages/home/home_page.dart';
-
-import '../../../../../common/constants.dart';
-import '../../../../../common/globals.dart';
-import '../../widgets/drawer/drawer.dart';
+import '../auth/cubit/login/login_cubit.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
@@ -42,7 +44,7 @@ class MainPage extends StatelessWidget {
               if (!isSmallScreen) MainDrawer(controller: _controller),
               Expanded(
                 child: Center(
-                  child: _MainScreen(
+                  child: _MainSreen(
                     controller: _controller,
                   ),
                 ),
@@ -55,8 +57,8 @@ class MainPage extends StatelessWidget {
   }
 }
 
-class _MainScreen extends StatelessWidget {
-  const _MainScreen({
+class _MainSreen extends StatelessWidget {
+  const _MainSreen({
     Key? key,
     required this.controller,
   }) : super(key: key);
@@ -73,13 +75,18 @@ class _MainScreen extends StatelessWidget {
           animation: controller,
           builder: (context, child) {
             final pageTitle = _getTitleByIndex(controller.selectedIndex);
+
             switch (controller.selectedIndex) {
               case 0:
                 return const HomePage();
               case 1:
                 return const CoursesPage();
               case 2:
-                return const AboutPage();
+                return const EnrolledCoursesPage();
+              case 3:
+                context.read<LoginCubit>().logout();
+
+                return const SizedBox.shrink();
               default:
                 return Text(
                   pageTitle,
@@ -98,13 +105,9 @@ String _getTitleByIndex(int index) {
     case 0:
       return 'Home';
     case 1:
-      return 'Search';
+      return 'Courses';
     case 2:
-      return 'People';
-    case 3:
-      return 'Favorites';
-    case 4:
-      return 'Custom iconWidget';
+      return "Enrolled Courses";
     default:
       return 'Not found page';
   }
