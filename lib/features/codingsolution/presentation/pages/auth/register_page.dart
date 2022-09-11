@@ -53,7 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
               TextInput.finishAutofillContext();
 
-              context.goNamed(Routes.register.path);
+              context.goNamed(Routes.login.path);
             }
             if (state is RegisterFailure) {
               context.dismiss();
