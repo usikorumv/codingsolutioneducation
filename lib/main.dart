@@ -93,12 +93,7 @@ class Application extends StatelessWidget {
 
 enum Routes {
   root("/"),
-
-  /// Home Page
   home("/home"),
-  // dashboard("/home/dashboard"),
-  // settings("/home/settings"),
-  // Auth Page
   login("/login"),
   register("/register"),
   ;
@@ -117,11 +112,6 @@ class AppRoute {
 
   static final GoRouter router = GoRouter(
     routes: [
-      // GoRoute(
-      //   path: Routes.splashScreen.path,
-      //   name: Routes.splashScreen.name,
-      //   builder: (_, __) => SplashScreenPage(),
-      // ),
       GoRoute(
         path: Routes.root.path,
         name: Routes.root.name,
