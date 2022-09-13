@@ -58,15 +58,12 @@ class _LoginPageState extends State<LoginPage> {
                           color: kPrimaryColor,
                           fontWeight: FontWeight.bold),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Text(
-                        'EDUCATION',
-                        style: GoogleFonts.roboto(
-                          letterSpacing: 5,
-                          fontSize: 35,
-                          color: Colors.white,
-                        ),
+                    Text(
+                      'EDUCATION',
+                      style: GoogleFonts.roboto(
+                        letterSpacing: 5,
+                        fontSize: 35,
+                        color: Colors.white,
                       ),
                     ),
                   ],
