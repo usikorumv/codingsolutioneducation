@@ -80,10 +80,10 @@ class MainDrawer extends StatelessWidget {
           icon: Icons.book,
           label: 'Courses',
         ),
-        SidebarXItem(
-          icon: Icons.bookmark,
-          label: 'Enrolled Courses',
-        ),
+        // SidebarXItem(
+        //   icon: Icons.bookmark,
+        //   label: 'Enrolled Courses',
+        // ),
         SidebarXItem(
           icon: Icons.logout,
           label: "Logout"
