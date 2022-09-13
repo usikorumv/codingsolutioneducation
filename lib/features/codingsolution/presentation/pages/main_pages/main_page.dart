@@ -81,9 +81,9 @@ class _MainSreen extends StatelessWidget {
                 return const HomePage();
               case 1:
                 return const CoursesPage();
+              // case 2:
+              //   return const EnrolledCoursesPage();
               case 2:
-                return const EnrolledCoursesPage();
-              case 3:
                 context.read<LoginCubit>().logout();
 
                 return const SizedBox.shrink();
@@ -106,8 +106,8 @@ String _getTitleByIndex(int index) {
       return 'Home';
     case 1:
       return 'Courses';
-    case 2:
-      return "Enrolled Courses";
+    // case 2:
+    //   return "Enrolled Courses";
     default:
       return 'Not found page';
   }
