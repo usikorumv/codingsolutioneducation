@@ -4,7 +4,7 @@ import 'package:codingsolution/features/codingsolution/data/data.dart';
 import 'package:codingsolution/service_locator.dart';
 
 class DioClient {
-  String baseUrl = "http://107.191.52.78:8001";
+  String baseUrl = "http://codingsolutionedu.com:8001";
 
   String? _auth;
   bool _isUnitTest = false;
