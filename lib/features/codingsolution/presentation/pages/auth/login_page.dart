@@ -1,17 +1,15 @@
 import 'package:codingsolution/common/constants.dart';
-import 'package:codingsolution/features/codingsolution/data/data.dart';
+import 'package:codingsolution/features/codingsolution/domain/domain.dart';
+import 'package:codingsolution/features/codingsolution/presentation/presentation.dart';
 import 'package:codingsolution/main.dart';
-import 'package:codingsolution/service_locator.dart';
+import 'package:codingsolution/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:codingsolution/features/codingsolution/domain/domain.dart';
-import 'package:codingsolution/features/codingsolution/presentation/presentation.dart';
-import 'package:codingsolution/utils/utils.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import 'cubit/cubit.dart';
+import 'cubit/login/login.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,25 +19,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  /// Controller
-  final _conEmail = TextEditingController();
-
-  final _conPassword = TextEditingController();
-
-  /// Focus Node
-  final _fnEmail = FocusNode();
-
-  final _fnPassword = FocusNode();
-
-  bool _isPasswordHide = true;
-
-  /// Global key
-  final _keyForm = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: BlocListener<LoginCubit, LoginState>(
           listener: (_, state) {
             log.d("loginState $state");
@@ -49,103 +32,278 @@ class _LoginPageState extends State<LoginPage> {
             }
             if (state is LoginSuccess) {
               context.dismiss();
-              state.login?.token.toString().toToastSuccess();
+              "Token: ${state.login?.token.toString().substring(0, 10)}..."
+                  .toToastSuccess();
 
               TextInput.finishAutofillContext();
             }
             if (state is LoginFailure) {
               context.dismiss();
-              state.message.toString().toToastError();
+              (state.message ??
+                      "No active account found with the given credentials")
+                  .toToastError();
             }
           },
-          child: SingleChildScrollView(
-            padding: EdgeInsets.all(Dimens.space24),
-            child: Center(
-              child: AutofillGroup(
-                child: Form(
-                  key: _keyForm,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 600),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+          child: ResponsiveWidget(
+            desktop: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'CODINGSOLUTION',
+                      style: GoogleFonts.roboto(
+                          fontSize: 60,
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text(
+                        'EDUCATION',
+                        style: GoogleFonts.roboto(
+                          letterSpacing: 5,
+                          fontSize: 35,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const SizedBox(height: 150),
+                    LoginCard(),
+                    const SizedBox(height: 25),
+                    Row(
                       children: [
                         Text(
-                          "Welcome",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.normal,
-                          ),
+                          'Log In',
+                          style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              letterSpacing: 1.2,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Enrol to Course",
-                          style: TextStyle(
+                          ' for starting to learn',
+                          style: GoogleFonts.roboto(
+                            letterSpacing: 1.2,
+                            fontSize: 16,
                             color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SpacerV(),
-                        TextF(
-                          autofillHints: const [AutofillHints.email],
-                          key: const Key("email"),
-                          curFocusNode: _fnEmail,
-                          nextFocusNode: _fnPassword,
-                          textInputAction: TextInputAction.next,
-                          controller: _conEmail,
-                          keyboardType: TextInputType.emailAddress,
-                          prefixIcon: Icon(
-                            Icons.alternate_email,
-                            color: Theme.of(context).textTheme.bodyText1?.color,
-                          ),
-                          hintText: "example@mail.com",
-                          hint: "Email",
-                          validator: (String? value) => value != null
-                              ? (!value.isValidEmail()
-                                  ? "Email is not valid"
-                                  : null)
-                              : null,
+                      ],
+                    ),
+                    const SizedBox(height: 50),
+                  ],
+                ),
+              ],
+            ),
+            mobile: SafeArea(
+              child: Center(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 90),
+                    Text(
+                      'CODINGSOLUTION',
+                      style: GoogleFonts.roboto(
+                          fontSize: 55,
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      'EDUCATION',
+                      style: GoogleFonts.roboto(
+                        fontSize: 35,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    LoginCard(),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Log In',
+                          style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              letterSpacing: 1.2,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
                         ),
-                        TextF(
-                          autofillHints: const [AutofillHints.password],
-                          key: const Key("password"),
-                          curFocusNode: _fnPassword,
-                          textInputAction: TextInputAction.done,
-                          controller: _conPassword,
-                          keyboardType: TextInputType.text,
-                          prefixIcon: Icon(
-                            Icons.lock_outline,
-                            color: Theme.of(context).textTheme.bodyText1?.color,
+                        Text(
+                          ' for starting to learn',
+                          style: GoogleFonts.roboto(
+                            letterSpacing: 1.2,
+                            fontSize: 16,
+                            color: Colors.white,
                           ),
-                          obscureText: _isPasswordHide,
-                          hintText: '••••••••••••',
-                          maxLine: 1,
-                          hint: "Password",
-                          suffixIcon: IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            onPressed: () {
-                              setState(
-                                () {
-                                  _isPasswordHide = !_isPasswordHide;
-                                },
-                              );
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 100),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LoginCard extends StatefulWidget {
+  const LoginCard({super.key});
+
+  @override
+  State<LoginCard> createState() => _LoginCardState();
+}
+
+class _LoginCardState extends State<LoginCard> {
+  final _conEmail = TextEditingController();
+
+  final _conPassword = TextEditingController();
+
+  /// Global key
+  final _keyForm = GlobalKey<FormState>();
+
+  /// Focus Node
+  final _fnEmail = FocusNode();
+
+  final _fnPassword = FocusNode();
+
+  bool _isPasswordHide = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      elevation: 10,
+      child: Container(
+        width: 430,
+        constraints: BoxConstraints(minHeight: 360),
+        padding: const EdgeInsets.all(10.0),
+        child: AutofillGroup(
+          child: Form(
+            key: _keyForm,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.black),
+                    controller: _conEmail,
+                    key: const Key("email"),
+                    autocorrect: true,
+                    autofillHints: const [AutofillHints.email],
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.emailAddress,
+                    focusNode: _fnEmail,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
+                        ),
+                      ),
+                      hintText: 'Email',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black45,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    validator: (String? value) => value != null
+                        ? (!value.isValidEmail() ? "Email is not valid" : null)
+                        : null,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.black),
+                    autofillHints: const [AutofillHints.password],
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.text,
+                    key: const Key("password"),
+                    controller: _conPassword,
+                    obscureText: _isPasswordHide,
+                    autocorrect: true,
+                    focusNode: _fnPassword,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
+                        ),
+                      ),
+                      hintText: 'Password',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black45,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      suffixIcon: IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        onPressed: () {
+                          setState(
+                            () {
+                              _isPasswordHide = !_isPasswordHide;
                             },
-                            icon: Icon(
-                              _isPasswordHide
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
+                          );
+                        },
+                        icon: Icon(
+                          _isPasswordHide
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                      ),
+                    ),
+                    validator: (String? value) => value != null
+                        ? (value.length < 3 ? "Can\'t be empty" : null)
+                        : null,
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top: 9.0, bottom: 15.0, left: 9.0, right: 9.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: kPrimaryColor),
+                          child: SizedBox(
+                            height: 50,
+                            child: Center(
+                              child: Text(
+                                "Log In",
+                                style: TextStyle(
+                                  letterSpacing: 1.2,
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
-                          validator: (String? value) => value != null
-                              ? (value.length < 3 ? "Can\'t be empty" : null)
-                              : null,
-                        ),
-                        SpacerV(value: Dimens.space24),
-                        Button(
-                          color: kPrimaryColor,
-                          title: "Login",
                           onPressed: () {
                             if (_keyForm.currentState?.validate() ?? false) {
                               context.read<LoginCubit>().login(
@@ -157,22 +315,64 @@ class _LoginPageState extends State<LoginPage> {
                             }
                           },
                         ),
-                        ButtonText(
-                          title: "Go to Register Page",
-                          onPressed: () {
-                            /// Direct to register page
-                            context.goNamed(Routes.register.name);
-                          },
-                        ),
-                      ],
+                      ),
                     ),
+                  ],
+                ),
+                Divider(
+                  height: 30,
+                  color: Colors.grey[300],
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  margin: EdgeInsets.symmetric(horizontal: 50),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff5eb64c),
+                    ),
+                    child: SizedBox(
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          'Create New Account',
+                          style: GoogleFonts.roboto(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      context.goNamed(Routes.register.name);
+                    },
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class ResponsiveWidget extends StatelessWidget {
+  final Widget? mobile;
+  final Widget? desktop;
+
+  const ResponsiveWidget({Key? key, this.mobile, this.desktop})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 930) {
+          return mobile ?? const SizedBox();
+        } else {
+          return desktop ?? const SizedBox();
+        }
+      },
     );
   }
 }

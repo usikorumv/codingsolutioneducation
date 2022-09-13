@@ -1,5 +1,6 @@
 import 'package:codingsolution/common/constants.dart';
 import 'package:codingsolution/features/codingsolution/domain/domain.dart';
+import 'package:codingsolution/features/codingsolution/presentation/pages/auth/login_page.dart';
 import 'package:codingsolution/features/codingsolution/presentation/presentation.dart';
 import 'package:codingsolution/main.dart';
 import 'package:codingsolution/utils/utils.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'cubit/cubit.dart';
 
@@ -19,6 +21,149 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: BlocListener<RegisterCubit, RegisterState>(
+          listener: (_, state) {
+            log.d("registerState $state");
+
+            if (state is RegisterLoading) {
+              context.show();
+            }
+            if (state is RegisterSuccess) {
+              context.dismiss();
+              state.register?.message.toString().toToastSuccess();
+
+              TextInput.finishAutofillContext();
+            }
+            if (state is RegisterFailure) {
+              context.dismiss();
+              state.message.toString().toToastError();
+            }
+          },
+          child: ResponsiveWidget(
+            desktop: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'CODINGSOLUTION',
+                      style: GoogleFonts.roboto(
+                          fontSize: 60,
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text(
+                        'EDUCATION',
+                        style: GoogleFonts.roboto(
+                          letterSpacing: 5,
+                          fontSize: 35,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const SizedBox(height: 150),
+                    RegisterCard(),
+                    const SizedBox(height: 25),
+                    Row(
+                      children: [
+                        Text(
+                          'Register',
+                          style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              letterSpacing: 1.2,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          ' to continue',
+                          style: GoogleFonts.roboto(
+                            letterSpacing: 1.2,
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 50),
+                  ],
+                ),
+              ],
+            ),
+            mobile: SafeArea(
+              child: Center(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 90),
+                    Text(
+                      'CODINGSOLUTION',
+                      style: GoogleFonts.roboto(
+                          fontSize: 55,
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      'EDUCATION',
+                      style: GoogleFonts.roboto(
+                        fontSize: 35,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    RegisterCard(),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Register',
+                          style: GoogleFonts.roboto(
+                              fontSize: 16,
+                              letterSpacing: 1.2,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          ' to continue',
+                          style: GoogleFonts.roboto(
+                            letterSpacing: 1.2,
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 100),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class RegisterCard extends StatefulWidget {
+  const RegisterCard({super.key});
+
+  @override
+  State<RegisterCard> createState() => _RegisterCardState();
+}
+
+class _RegisterCardState extends State<RegisterCard> {
   /// Controller
   final _conEmail = TextEditingController();
   final _conPassword = TextEditingController();
@@ -38,142 +183,181 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: BlocListener<RegisterCubit, RegisterState>(
-          listener: (_, state) {
-            log.d("registerState $state");
-
-            if (state is RegisterLoading) {
-              context.show();
-            }
-            if (state is RegisterSuccess) {
-              context.dismiss();
-              state.register?.message.toString().toToastSuccess();
-
-              TextInput.finishAutofillContext();
-
-              context.goNamed(Routes.login.path);
-            }
-            if (state is RegisterFailure) {
-              context.dismiss();
-              state.message.toString().toToastError();
-            }
-          },
-          child: SingleChildScrollView(
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.all(Dimens.space24),
-                child: Form(
-                  key: _keyForm,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 600),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Register your Account",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
+    return Card(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      elevation: 10,
+      child: Container(
+        width: 430,
+        constraints: BoxConstraints(minHeight: 410),
+        padding: const EdgeInsets.all(10.0),
+        child: AutofillGroup(
+          child: Form(
+            key: _keyForm,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.black),
+                    controller: _conEmail,
+                    key: const Key("email"),
+                    autocorrect: true,
+                    autofillHints: const [AutofillHints.email],
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.emailAddress,
+                    focusNode: _fnEmail,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
                         ),
-                        TextF(
-                          key: const Key("email"),
-                          curFocusNode: _fnEmail,
-                          nextFocusNode: _fnPassword,
-                          textInputAction: TextInputAction.next,
-                          controller: _conEmail,
-                          keyboardType: TextInputType.emailAddress,
-                          prefixIcon: Icon(
-                            Icons.alternate_email,
-                            color: Theme.of(context).textTheme.bodyText1?.color,
-                          ),
-                          hintText: 'example@mail.com',
-                          hint: "",
-                          validator: (String? value) => value != null
-                              ? (!value.isValidEmail() ? "" : null)
-                              : null,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
                         ),
-                        TextF(
-                          key: const Key("password"),
-                          curFocusNode: _fnPassword,
-                          nextFocusNode: _fnPasswordRepeat,
-                          textInputAction: TextInputAction.next,
-                          controller: _conPassword,
-                          keyboardType: TextInputType.text,
-                          prefixIcon: Icon(
-                            Icons.lock_outline,
-                            color: Theme.of(context).textTheme.bodyText1?.color,
-                          ),
-                          obscureText: _isPasswordHide,
-                          hintText: '••••••••••••',
-                          maxLine: 1,
-                          hint: "",
-                          suffixIcon: IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            onPressed: () {
-                              setState(
-                                () {
-                                  _isPasswordHide = !_isPasswordHide;
-                                },
-                              );
+                      ),
+                      hintText: 'Email',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black45,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    validator: (String? value) => value != null
+                        ? (!value.isValidEmail() ? "Email is not valid" : null)
+                        : null,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.black),
+                    autofillHints: const [AutofillHints.password],
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.text,
+                    key: const Key("password"),
+                    controller: _conPassword,
+                    obscureText: _isPasswordHide,
+                    autocorrect: true,
+                    focusNode: _fnPassword,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
+                        ),
+                      ),
+                      hintText: 'Password',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black45,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      suffixIcon: IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        onPressed: () {
+                          setState(
+                            () {
+                              _isPasswordHide = !_isPasswordHide;
                             },
-                            icon: Icon(
-                              _isPasswordHide
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
+                          );
+                        },
+                        icon: Icon(
+                          _isPasswordHide
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                      ),
+                    ),
+                    validator: (String? value) => value != null
+                        ? (value.length < 3 ? "Can\'t be empty" : null)
+                        : null,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextFormField(
+                    style: TextStyle(color: Colors.black),
+                    autofillHints: const [AutofillHints.password],
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.text,
+                    key: const Key("repeat_password"),
+                    controller: _conPasswordRepeat,
+                    obscureText: _isPasswordRepeatHide,
+                    autocorrect: true,
+                    focusNode: _fnPasswordRepeat,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
+                        ),
+                      ),
+                      hintText: 'Repeat password',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black45,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      suffixIcon: IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        onPressed: () {
+                          setState(
+                            () {
+                              _isPasswordRepeatHide = !_isPasswordRepeatHide;
+                            },
+                          );
+                        },
+                        icon: Icon(
+                          _isPasswordRepeatHide
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
+                      ),
+                    ),
+                    validator: (String? value) => value != null
+                        ? (value.length < 3 ? "Can\'t be empty" : null)
+                        : null,
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top: 9.0, bottom: 15.0, left: 9.0, right: 9.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: kPrimaryColor),
+                          child: SizedBox(
+                            height: 50,
+                            child: Center(
+                              child: Text(
+                                "Register",
+                                style: TextStyle(
+                                  letterSpacing: 1.2,
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
-                          validator: (String? value) => value != null
-                              ? (value.length < 3 ? "" : null)
-                              : null,
-                        ),
-                        TextF(
-                          key: const Key("repeat_password"),
-                          curFocusNode: _fnPasswordRepeat,
-                          textInputAction: TextInputAction.done,
-                          controller: _conPasswordRepeat,
-                          keyboardType: TextInputType.text,
-                          prefixIcon: Icon(
-                            Icons.lock_outline,
-                            color: Theme.of(context).textTheme.bodyText1?.color,
-                          ),
-                          obscureText: _isPasswordRepeatHide,
-                          hintText: '••••••••••••',
-                          maxLine: 1,
-                          hint: "",
-                          suffixIcon: IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            onPressed: () {
-                              setState(
-                                () {
-                                  _isPasswordRepeatHide =
-                                      !_isPasswordRepeatHide;
-                                },
-                              );
-                            },
-                            icon: Icon(
-                              _isPasswordRepeatHide
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                            ),
-                          ),
-                          validator: (String? value) => value != null
-                              ? (value != _conPassword.text ? "" : null)
-                              : null,
-                        ),
-                        SpacerV(value: Dimens.space24),
-                        Button(
-                          key: const Key("btn_register"),
-                          color: kPrimaryColor,
-                          title: "Register",
                           onPressed: () {
-                            /// Validate form first
                             if (_keyForm.currentState?.validate() ?? false) {
                               context.read<RegisterCubit>().register(
                                     CodeSolutionRegisterParams(
@@ -184,18 +368,39 @@ class _RegisterPageState extends State<RegisterPage> {
                             }
                           },
                         ),
-                        ButtonText(
-                          title: "Back to Login Page",
-                          onPressed: () {
-                            /// Direct to register page
-                            context.goNamed(Routes.login.name);
-                          },
-                        ),
-                      ],
+                      ),
                     ),
+                  ],
+                ),
+                Divider(
+                  height: 30,
+                  color: Colors.grey[300],
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  margin: EdgeInsets.symmetric(horizontal: 50),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff5eb64c),
+                    ),
+                    child: SizedBox(
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          'Back to Log In',
+                          style: GoogleFonts.roboto(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      context.goNamed(Routes.login.name);
+                    },
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
