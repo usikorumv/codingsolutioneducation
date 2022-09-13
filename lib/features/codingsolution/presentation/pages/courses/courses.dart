@@ -26,7 +26,10 @@ class _CoursesState extends State<Courses> {
     return BlocBuilder<CoursesCubit, CoursesState>(
       builder: (context, state) {
         if (state is CoursesLoading) {
-          return Center(child: CircularProgressIndicator());
+          return Padding(
+            padding: EdgeInsets.only(bottom: 120),
+            child: CircularProgressIndicator(),
+          );
         }
 
         if (state is CoursesFailure) {
@@ -35,8 +38,9 @@ class _CoursesState extends State<Courses> {
 
         if (state is CoursesSuccess) {
           return ListView.separated(
+            padding:
+                EdgeInsets.symmetric(horizontal: 40) + EdgeInsets.only(top: 40),
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
             itemCount: state.courses!.courses.length,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
@@ -48,17 +52,14 @@ class _CoursesState extends State<Courses> {
                     ),
                   );
                 },
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 100),
-                  child: ItemCard(
-                    data: ItemCardData(
-                      imageName: state.courses!.courses[index].imageUrl,
-                      title: state.courses!.courses[index].title,
-                      description: 'Course for test',
-                      tags: ['default'],
-                      metadata1: 'AUG 19, 2021',
-                      metadata2: '2 MIN READ',
-                    ),
+                child: ItemCard(
+                  data: ItemCardData(
+                    imageName: state.courses!.courses[index].imageUrl,
+                    title: state.courses!.courses[index].title,
+                    description: 'Course for test',
+                    tags: ['default'],
+                    metadata1: 'AUG 19, 2021',
+                    metadata2: '2 MIN READ',
                   ),
                 ),
               );
