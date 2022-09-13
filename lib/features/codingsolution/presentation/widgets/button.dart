@@ -41,7 +41,8 @@ class Button extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          foregroundColor: Palette.hint, backgroundColor: color ?? Palette.primary,
+          foregroundColor: Palette.hint,
+          backgroundColor: color ?? Palette.primary,
           padding: EdgeInsets.symmetric(horizontal: Dimens.space24),
           shape: const BeveledRectangleBorder(
             borderRadius: BorderRadius.all(
