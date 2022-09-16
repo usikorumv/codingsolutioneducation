@@ -78,6 +78,7 @@ class StaffMembersInfo extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 50.w,
+              backgroundColor: Colors.white,
               backgroundImage: mentor.imageUrl != null
                   ? NetworkImage(mentor.imageUrl!)
                   : const AssetImage("assets/images/staff.png")
