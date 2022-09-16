@@ -1,9 +1,17 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:codingsolution/common/styles.dart';
+import 'package:codingsolution/features/codingsolution/domain/domain.dart';
+import 'package:codingsolution/features/codingsolution/presentation/pages/auth/cubit/cubit/user_info_cubit.dart';
+
+import 'package:codingsolution/features/codingsolution/presentation/pages/auth/user_info_page.dart';
 import 'package:codingsolution/features/codingsolution/presentation/pages/courses/cubit/courses_cubit.dart';
 import 'package:codingsolution/features/codingsolution/presentation/pages/main_pages/main_page.dart';
+import 'package:codingsolution/firebase_options.dart';
 import 'package:codingsolution/service_locator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +33,10 @@ void main() async {
   init();
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runZonedGuarded(
     () => SystemChrome.setPreferredOrientations(
@@ -51,6 +63,7 @@ class Application extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => sl<LoginCubit>()),
         BlocProvider(create: (_) => sl<RegisterCubit>()),
+        BlocProvider(create: (_) => sl<UserInfoCubit>()),
         BlocProvider(create: (_) => sl<CoursesCubit>()),
       ],
       child: OKToast(
@@ -74,10 +87,10 @@ class Application extends StatelessWidget {
                   defaultScale: true,
                   breakpoints: [
                     const ResponsiveBreakpoint.resize(450, name: MOBILE),
-                    const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                    const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+                    const ResponsiveBreakpoint.resize(800, name: TABLET),
+                    const ResponsiveBreakpoint.resize(1000, name: TABLET),
                     const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
-                    const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+                    const ResponsiveBreakpoint.resize(2460, name: "4K"),
                   ],
                   background: Container(color: const Color(0xFFF5F5F5))),
               theme: themeData(),
@@ -94,6 +107,7 @@ enum Routes {
   home("/home"),
   login("/login"),
   register("/register"),
+  userInfo("/user_info"),
   ;
 
   const Routes(this.path);
@@ -130,12 +144,34 @@ class AppRoute {
         name: Routes.register.name,
         builder: (_, __) => const RegisterPage(),
       ),
+      GoRoute(
+        path: Routes.userInfo.path,
+        name: Routes.userInfo.name,
+        builder: (_, __) => const UserInfoPage(),
+      ),
     ],
     routerNeglect: true,
-    refreshListenable: GoRouterRefreshStream(context.read<LoginCubit>().stream),
+    refreshListenable: GoRouterRefreshStream(
+      StreamGroup.merge(
+        [
+          context.read<LoginCubit>().stream,
+          context.read<RegisterCubit>().stream,
+          context.read<UserInfoCubit>().stream,
+        ],
+      ),
+    ),
     redirect: (GoRouterState state) {
       final isLoginPage = state.subloc == Routes.login.path;
       final isRegisterPage = state.subloc == Routes.register.path;
+      final isUserInfoPage = state.subloc == Routes.userInfo.path;
+
+      if (sl<AuthLocalDataSource>().isRegistered) {
+        if (isUserInfoPage) {
+          return null;
+        } else {
+          return Routes.userInfo.path;
+        }
+      }
 
       if (!sl<AuthLocalDataSource>().isLoggedIn) {
         if (isLoginPage || isRegisterPage) {

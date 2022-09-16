@@ -2,8 +2,6 @@ import 'package:codingsolution/features/codingsolution/presentation/presentation
 import 'package:codingsolution/features/codingsolution/presentation/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
-
-
 extension ContextExtensions on BuildContext {
   bool isMobile() {
     final shortestSide = MediaQuery.of(this).size.shortestSide;

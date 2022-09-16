@@ -13,10 +13,5 @@ class GetCourses extends UseCase<Courses, CoursesParams> {
 }
 
 class CoursesParams {
-  final bool showRegistered;
-
-  CoursesParams({this.showRegistered = false});
-
-  Map<String, dynamic> toJson() => {
-      };
+  Map<String, dynamic> toJson() => {};
 }

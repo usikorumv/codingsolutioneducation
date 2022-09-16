@@ -1,6 +1,6 @@
+import 'package:codingsolution/common/globals.dart';
+import 'package:codingsolution/common/screen_helper.dart';
 import 'package:flutter/material.dart';
-import '../../../../../common/globals.dart';
-import '../../../../../common/screen_helper.dart';
 import 'header_logo.dart';
 import 'header_menu.dart';
 

@@ -3,7 +3,7 @@ import 'package:codingsolution/common/globals.dart';
 import 'package:codingsolution/features/codingsolution/presentation/pages/courses/courses_page.dart';
 import 'package:codingsolution/features/codingsolution/presentation/pages/enrolled_courses_page.dart';
 import 'package:codingsolution/features/codingsolution/presentation/pages/home/home_page.dart';
-import 'package:codingsolution/features/codingsolution/presentation/widgets/drawer.dart';
+import 'package:codingsolution/features/codingsolution/presentation/widgets/drawer/drawer.dart';
 import 'package:codingsolution/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

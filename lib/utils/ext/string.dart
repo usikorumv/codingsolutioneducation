@@ -2,7 +2,8 @@ import 'package:codingsolution/features/codingsolution/presentation/widgets/toas
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 
-import 'package:codingsolution/utils/utils.dart';
+import '../helper/common.dart';
+
 
 extension StringExtension on String {
   bool isValidEmail() {

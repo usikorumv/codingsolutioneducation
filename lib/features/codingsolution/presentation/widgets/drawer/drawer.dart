@@ -1,7 +1,6 @@
+import 'package:codingsolution/common/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
-
-import 'package:codingsolution/common/constants.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({
@@ -71,22 +70,18 @@ class MainDrawer extends StatelessWidget {
           ),
         );
       },
-      items: const [
+      items: [
         SidebarXItem(
           icon: Icons.home,
           label: 'Home',
         ),
-        SidebarXItem(
+        const SidebarXItem(
           icon: Icons.book,
           label: 'Courses',
         ),
-        // SidebarXItem(
-        //   icon: Icons.bookmark,
-        //   label: 'Enrolled Courses',
-        // ),
-        SidebarXItem(
+        const SidebarXItem(
           icon: Icons.logout,
-          label: "Logout"
+          label: 'Log Out',
         ),
       ],
     );

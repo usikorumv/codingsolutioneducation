@@ -1,8 +1,9 @@
+import 'package:codingsolution/features/codingsolution/domain/domain.dart';
 import 'package:codingsolution/features/codingsolution/domain/usecases/courses/get_courses.dart';
+import 'package:codingsolution/features/codingsolution/presentation/pages/auth/login_page.dart';
 import 'package:codingsolution/features/codingsolution/presentation/pages/courses/course_page.dart';
 import 'package:codingsolution/features/codingsolution/presentation/pages/courses/cubit/courses_cubit.dart';
 import 'package:codingsolution/features/codingsolution/presentation/widgets/item_card.dart';
-import 'package:codingsolution/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +19,7 @@ class _CoursesState extends State<Courses> {
   void initState() {
     super.initState();
 
-    context.read<CoursesCubit>().course(CoursesParams());
+    context.read<CoursesCubit>().courses(CoursesParams());
   }
 
   @override
@@ -26,51 +27,103 @@ class _CoursesState extends State<Courses> {
     return BlocBuilder<CoursesCubit, CoursesState>(
       builder: (context, state) {
         if (state is CoursesLoading) {
-          return Padding(
+          return const Padding(
             padding: EdgeInsets.only(bottom: 120),
             child: CircularProgressIndicator(),
           );
         }
 
         if (state is CoursesFailure) {
-          return SizedBox();
+          return const SizedBox();
         }
 
         if (state is CoursesSuccess) {
+          final data = state.courses;
+          final courses = data != null ? data.courses : <Course>[];
+
           return ListView.separated(
-            padding:
-                EdgeInsets.symmetric(horizontal: 40) + EdgeInsets.only(top: 40),
             shrinkWrap: true,
-            itemCount: state.courses!.courses.length,
+            padding: const EdgeInsets.symmetric(horizontal: 40) +
+                const EdgeInsets.only(top: 40),
+            itemCount: courses.length,
             itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CoursePage(),
+              final currentCourse = courses[index];
+              // final nextCourse =
+              //     index + 1 != courses.length - 1 ? courses[index + 1] : null;
+
+              return ResponsiveWidget(
+                desktop: GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  children: List.generate(
+                    // TODO: See
+                    1,
+                    (index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CoursePage(
+                                course: courses[index],
+                              ),
+                            ),
+                          );
+                        },
+                        child: ItemCard(
+                          data: ItemCardData(
+                            imageProvider: currentCourse.imageUrl != null
+                                ? NetworkImage(currentCourse.imageUrl!)
+                                : const AssetImage("assets/images/.png")
+                                    as ImageProvider,
+                            title: currentCourse.title ?? "Title",
+                            description:
+                                "${currentCourse.metadata1 ?? ""}\n${currentCourse.metadata2 ?? ""}",
+                            tags: ['Salesforce'],
+                            metadata1: '14 SEP 2022',
+                            metadata2: '',
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                mobile: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CoursePage(
+                          course: courses[index],
+                        ),
+                      ),
+                    );
+                  },
+                  child: ItemCard(
+                    data: ItemCardData(
+                      imageProvider: currentCourse.imageUrl != null
+                          ? NetworkImage(currentCourse.imageUrl!)
+                          : const AssetImage("assets/images/staff.png")
+                              as ImageProvider,
+                      title: currentCourse.title ?? "Title",
+                      description: '',
+                      tags: ['Salesforce'],
+                      metadata1: '',
+                      metadata2: '',
                     ),
-                  );
-                },
-                child: ItemCard(
-                  data: ItemCardData(
-                    imageName: state.courses!.courses[index].imageUrl,
-                    title: state.courses!.courses[index].title,
-                    description: 'Course for test',
-                    tags: ['default'],
-                    metadata1: 'AUG 19, 2021',
-                    metadata2: '2 MIN READ',
                   ),
                 ),
               );
             },
             separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(height: 30);
+              return const SizedBox(height: 30);
             },
           );
         }
 
-        return SizedBox();
+        return const SizedBox();
       },
     );
   }

@@ -1,3 +1,5 @@
+import 'package:codingsolution/features/codingsolution/data/data_sources/data_sources.dart';
+import 'package:codingsolution/service_locator.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,7 +24,10 @@ class RegisterCubit extends Cubit<RegisterState> {
           );
         }
       },
-      (r) => emit(RegisterSuccess(register: r)),
+      (r) {
+        sl<AuthLocalDataSource>().isRegistered = true;
+        emit(RegisterSuccess(register: r));
+      },
     );
   }
 }

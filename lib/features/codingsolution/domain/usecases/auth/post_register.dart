@@ -26,20 +26,3 @@ class RegisterParams {
         "password": password,
       };
 }
-
-class CodeSolutionRegisterParams extends RegisterParams {
-  CodeSolutionRegisterParams({
-    String email = "",
-    String password = "",
-  }) : super(
-          email: email,
-          password: password,
-        );
-
-  @override
-  Map<String, dynamic> toJson() => {
-        "email": email,
-        "password": password,
-        "password2": password,
-      };
-}

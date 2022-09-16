@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:codingsolution/utils/helper/common.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
-import 'package:codingsolution/utils/utils.dart';
 
 class DioInterceptor extends Interceptor {
   @override

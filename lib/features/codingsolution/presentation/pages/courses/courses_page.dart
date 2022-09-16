@@ -1,7 +1,8 @@
 import 'package:codingsolution/features/codingsolution/presentation/pages/courses/courses.dart';
+import 'package:codingsolution/features/codingsolution/presentation/widgets/footer.dart';
+
 import 'package:flutter/material.dart';
 
-import '../../widgets/footer/footer.dart';
 
 class CoursesPage extends StatelessWidget {
   const CoursesPage({Key? key}) : super(key: key);

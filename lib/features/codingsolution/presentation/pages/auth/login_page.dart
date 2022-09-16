@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:codingsolution/common/constants.dart';
 import 'package:codingsolution/features/codingsolution/domain/domain.dart';
 import 'package:codingsolution/features/codingsolution/presentation/presentation.dart';
@@ -39,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
             }
             if (state is LoginFailure) {
               context.dismiss();
+
               (state.message ??
                       "No active account found with the given credentials")
                   .toToastError();
@@ -51,6 +53,11 @@ class _LoginPageState extends State<LoginPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Image.asset(
+                      "assets/images/coding_logo.png",
+                      scale: 3.25,
+                    ),
+                    SizedBox(height: 30),
                     Text(
                       'CODINGSOLUTION',
                       style: GoogleFonts.roboto(
@@ -100,50 +107,64 @@ class _LoginPageState extends State<LoginPage> {
             ),
             mobile: SafeArea(
               child: Center(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 90),
-                    Text(
-                      'CODINGSOLUTION',
-                      style: GoogleFonts.roboto(
-                          fontSize: 55,
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 15),
-                    Text(
-                      'EDUCATION',
-                      style: GoogleFonts.roboto(
-                        fontSize: 35,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                    LoginCard(),
-                    const SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Log In',
-                          style: GoogleFonts.roboto(
-                              fontSize: 16,
-                              letterSpacing: 1.2,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          ' for starting to learn',
-                          style: GoogleFonts.roboto(
-                            letterSpacing: 1.2,
-                            fontSize: 16,
-                            color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 90),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            "assets/images/coding_logo.png",
+                            scale: 4,
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 100),
-                  ],
+                          SizedBox(height: 30),
+                          AutoSizeText(
+                            'CODINGSOLUTION',
+                            maxLines: 1,
+                            style: GoogleFonts.roboto(
+                                fontSize: 50,
+                                color: kPrimaryColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 15),
+                          Text(
+                            'EDUCATION',
+                            style: GoogleFonts.roboto(
+                              fontSize: 35,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 40),
+                      LoginCard(),
+                      const SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Log In',
+                            style: GoogleFonts.roboto(
+                                fontSize: 16,
+                                letterSpacing: 1.2,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            ' for starting to learn',
+                            style: GoogleFonts.roboto(
+                              letterSpacing: 1.2,
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 100),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -364,7 +385,7 @@ class ResponsiveWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth < 930) {
+        if (constraints.maxWidth < 950) {
           return mobile ?? const SizedBox();
         } else {
           return desktop ?? const SizedBox();

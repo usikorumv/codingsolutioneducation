@@ -1,47 +1,43 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:codingsolution/common/constants.dart';
 import 'package:codingsolution/features/codingsolution/domain/domain.dart';
+import 'package:codingsolution/features/codingsolution/domain/usecases/auth/post_user_info.dart';
+
 import 'package:codingsolution/features/codingsolution/presentation/pages/auth/login_page.dart';
-import 'package:codingsolution/features/codingsolution/presentation/presentation.dart';
-import 'package:codingsolution/main.dart';
 import 'package:codingsolution/utils/utils.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'cubit/cubit.dart';
+import 'cubit/cubit/user_info_cubit.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class UserInfoPage extends StatefulWidget {
+  const UserInfoPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<UserInfoPage> createState() => _UserInfoPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _UserInfoPageState extends State<UserInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: BlocListener<RegisterCubit, RegisterState>(
-          listener: (_, state) {
-            log.d("registerState $state");
+        child: BlocListener<UserInfoCubit, UserInfoState>(
+          listener: (context, state) {
+            log.d("loginState $state");
 
-            if (state is RegisterLoading) {
+            if (state is UserInfoLoading) {
               context.show();
             }
-            if (state is RegisterSuccess) {
+            if (state is UserInfoSuccess) {
               context.dismiss();
-              state.register?.message.toString().toToastSuccess();
-
-              TextInput.finishAutofillContext();
+              state.userInfo!.message.toString().toToastSuccess();
             }
-            if (state is RegisterFailure) {
+            if (state is UserInfoFailure) {
               context.dismiss();
-              state.message.toString().toToastError();
+              state.message!.toToastError();
             }
           },
           child: ResponsiveWidget(
@@ -76,27 +72,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 Column(
                   children: [
                     const SizedBox(height: 150),
-                    const RegisterCard(),
+                    UserInfoCard(),
                     const SizedBox(height: 25),
-                    Row(
-                      children: [
-                        Text(
-                          'Register',
-                          style: GoogleFonts.roboto(
-                              fontSize: 16,
-                              letterSpacing: 1.2,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          ' to continue',
-                          style: GoogleFonts.roboto(
-                            letterSpacing: 1.2,
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      'Fill Forms',
+                      style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          letterSpacing: 1.2,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 50),
                   ],
@@ -137,28 +121,15 @@ class _RegisterPageState extends State<RegisterPage> {
                         ],
                       ),
                       const SizedBox(height: 40),
-                      const RegisterCard(),
+                      UserInfoCard(),
                       const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Register',
-                            style: GoogleFonts.roboto(
-                                fontSize: 16,
-                                letterSpacing: 1.2,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            ' to continue',
-                            style: GoogleFonts.roboto(
-                              letterSpacing: 1.2,
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        'Fill Forms',
+                        style: GoogleFonts.roboto(
+                            fontSize: 16,
+                            letterSpacing: 1.2,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 100),
                     ],
@@ -173,27 +144,23 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 }
 
-class RegisterCard extends StatefulWidget {
-  const RegisterCard({super.key});
+class UserInfoCard extends StatefulWidget {
+  const UserInfoCard({super.key});
 
   @override
-  State<RegisterCard> createState() => _RegisterCardState();
+  State<UserInfoCard> createState() => _UserInfoCardState();
 }
 
-class _RegisterCardState extends State<RegisterCard> {
+class _UserInfoCardState extends State<UserInfoCard> {
   /// Controller
-  final _conEmail = TextEditingController();
-  final _conPassword = TextEditingController();
-  final _conPasswordRepeat = TextEditingController();
+  final _conName = TextEditingController();
+  final _conSurname = TextEditingController();
+  final _conPhone = TextEditingController();
 
   /// Focus Node
-  final _fnEmail = FocusNode();
-  final _fnPassword = FocusNode();
-  final _fnPasswordRepeat = FocusNode();
-
-  /// Handle state visibility password
-  bool _isPasswordHide = true;
-  bool _isPasswordRepeatHide = true;
+  final _fnName = FocusNode();
+  final _fnSuname = FocusNode();
+  final _fnPhone = FocusNode();
 
   /// Global key form
   final _keyForm = GlobalKey<FormState>();
@@ -208,7 +175,6 @@ class _RegisterCardState extends State<RegisterCard> {
       elevation: 10,
       child: Container(
         width: 430,
-        constraints: const BoxConstraints(minHeight: 410),
         padding: const EdgeInsets.all(10.0),
         child: AutofillGroup(
           child: Form(
@@ -219,13 +185,12 @@ class _RegisterCardState extends State<RegisterCard> {
                   padding: const EdgeInsets.all(10),
                   child: TextFormField(
                     style: const TextStyle(color: Colors.black),
-                    controller: _conEmail,
-                    key: const Key("email"),
+                    controller: _conName,
+                    key: const Key("name"),
                     autocorrect: true,
-                    autofillHints: const [AutofillHints.email],
                     textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.emailAddress,
-                    focusNode: _fnEmail,
+                    keyboardType: TextInputType.name,
+                    focusNode: _fnName,
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -237,30 +202,27 @@ class _RegisterCardState extends State<RegisterCard> {
                           color: Colors.grey[300]!,
                         ),
                       ),
-                      hintText: 'Email',
+                      hintText: 'Name',
                       hintStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.black45,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    validator: (String? value) => value != null
-                        ? (!value.isValidEmail() ? "Email is not valid" : null)
-                        : null,
+                    validator: (String? value) =>
+                        value == null ? "Field cannot be form" : null,
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.all(10),
                   child: TextFormField(
                     style: const TextStyle(color: Colors.black),
-                    autofillHints: const [AutofillHints.password],
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.text,
-                    key: const Key("password"),
-                    controller: _conPassword,
-                    obscureText: _isPasswordHide,
+                    controller: _conSurname,
+                    key: const Key("surname"),
                     autocorrect: true,
-                    focusNode: _fnPassword,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.name,
+                    focusNode: _fnSuname,
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -272,46 +234,27 @@ class _RegisterCardState extends State<RegisterCard> {
                           color: Colors.grey[300]!,
                         ),
                       ),
-                      hintText: 'Password',
+                      hintText: 'Surname',
                       hintStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.black45,
                         fontWeight: FontWeight.bold,
                       ),
-                      suffixIcon: IconButton(
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                        onPressed: () {
-                          setState(
-                            () {
-                              _isPasswordHide = !_isPasswordHide;
-                            },
-                          );
-                        },
-                        icon: Icon(
-                          _isPasswordHide
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                      ),
                     ),
-                    validator: (String? value) => value != null
-                        ? (value.length < 3 ? "Can\'t be empty" : null)
-                        : null,
+                    validator: (String? value) =>
+                        value == null ? "Field cannot be form" : null,
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.all(10),
                   child: TextFormField(
                     style: const TextStyle(color: Colors.black),
-                    autofillHints: const [AutofillHints.password],
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.text,
-                    key: const Key("repeat_password"),
-                    controller: _conPasswordRepeat,
-                    obscureText: _isPasswordRepeatHide,
+                    controller: _conPhone,
+                    key: const Key("phone"),
                     autocorrect: true,
-                    focusNode: _fnPasswordRepeat,
+                    textInputAction: TextInputAction.send,
+                    keyboardType: TextInputType.phone,
+                    focusNode: _fnPhone,
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -323,32 +266,15 @@ class _RegisterCardState extends State<RegisterCard> {
                           color: Colors.grey[300]!,
                         ),
                       ),
-                      hintText: 'Repeat password',
+                      hintText: 'Phone',
                       hintStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.black45,
                         fontWeight: FontWeight.bold,
                       ),
-                      suffixIcon: IconButton(
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                        onPressed: () {
-                          setState(
-                            () {
-                              _isPasswordRepeatHide = !_isPasswordRepeatHide;
-                            },
-                          );
-                        },
-                        icon: Icon(
-                          _isPasswordRepeatHide
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                      ),
                     ),
-                    validator: (String? value) => value != null
-                        ? (value.length < 3 ? "Can\'t be empty" : null)
-                        : null,
+                    validator: (String? value) =>
+                        value == null ? "Field cannot be form" : null,
                   ),
                 ),
                 Row(
@@ -364,7 +290,7 @@ class _RegisterCardState extends State<RegisterCard> {
                             height: 50,
                             child: Center(
                               child: Text(
-                                "Register",
+                                "Save",
                                 style: TextStyle(
                                   letterSpacing: 1.2,
                                   color: Colors.white,
@@ -376,10 +302,11 @@ class _RegisterCardState extends State<RegisterCard> {
                           ),
                           onPressed: () {
                             if (_keyForm.currentState?.validate() ?? false) {
-                              context.read<RegisterCubit>().register(
-                                    RegisterParams(
-                                      email: _conEmail.text,
-                                      password: _conPassword.text,
+                              context.read<UserInfoCubit>().userInfo(
+                                    UserInfoParams(
+                                      name: _conName.text,
+                                      surname: _conSurname.text,
+                                      phone: _conPhone.text,
                                     ),
                                   );
                             }
@@ -389,34 +316,34 @@ class _RegisterCardState extends State<RegisterCard> {
                     ),
                   ],
                 ),
-                Divider(
-                  height: 30,
-                  color: Colors.grey[300],
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  margin: const EdgeInsets.symmetric(horizontal: 50),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff5eb64c),
-                    ),
-                    child: SizedBox(
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          'Back to Log In',
-                          style: GoogleFonts.roboto(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    onPressed: () {
-                      context.goNamed(Routes.login.name);
-                    },
-                  ),
-                ),
+                // Divider(
+                //   height: 30,
+                //   color: Colors.grey[300],
+                // ),
+                // Container(
+                //   padding: const EdgeInsets.all(8.0),
+                //   margin: EdgeInsets.symmetric(horizontal: 50),
+                //   child: ElevatedButton(
+                //     style: ElevatedButton.styleFrom(
+                //       backgroundColor: Color(0xff5eb64c),
+                //     ),
+                //     child: SizedBox(
+                //       height: 50,
+                //       child: Center(
+                //         child: Text(
+                //           'Back to Log In',
+                //           style: GoogleFonts.roboto(
+                //               fontSize: 20,
+                //               color: Colors.white,
+                //               fontWeight: FontWeight.bold),
+                //         ),
+                //       ),
+                //     ),
+                //     onPressed: () {
+                //       context.goNamed(Routes.login.name);
+                //     },
+                //   ),
+                // ),
               ],
             ),
           ),

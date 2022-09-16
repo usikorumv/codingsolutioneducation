@@ -1,8 +1,9 @@
+import 'package:codingsolution/features/codingsolution/domain/usecases/auth/post_user_info.dart';
+import 'package:codingsolution/features/codingsolution/domain/entities/auth/user_info.dart';
 import 'package:dartz/dartz.dart';
 import 'package:codingsolution/core/core.dart';
 import 'package:codingsolution/features/codingsolution/data/data.dart';
 import 'package:codingsolution/features/codingsolution/domain/domain.dart';
-
 
 class AuthRepositoryImpl implements AuthRepository {
   /// Data Source
@@ -27,6 +28,18 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     try {
       final response = await authRemoteDatasource.register(registerParams);
+
+      return Right(response.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserInfo>> userInfo(
+      UserInfoParams userInfoParams) async {
+    try {
+      final response = await authRemoteDatasource.userInfo(userInfoParams);
 
       return Right(response.toEntity());
     } on ServerException catch (e) {
