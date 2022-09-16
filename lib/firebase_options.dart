@@ -44,44 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCGAC4DrrJvI4tpmExUE6UNnBFXspRI0MI',
-    appId: '1:1000195572808:web:66070044f708d59734847d',
-    messagingSenderId: '1000195572808',
-    projectId: 'codingsolutionedu-b4282',
-    authDomain: 'codingsolutionedu-b4282.firebaseapp.com',
-    databaseURL: 'https://codingsolutionedu-b4282-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'codingsolutionedu-b4282.appspot.com',
-    measurementId: 'G-D53PS0GVPF',
+    apiKey: 'AIzaSyDzXn16GZCNbtBdZ8oCt2m0fI0CAjZ_0Dc',
+    appId: '1:831709560001:web:bc32ff022d4bd282f52840',
+    messagingSenderId: '831709560001',
+    projectId: 'coding-658e2',
+    authDomain: 'coding-658e2.firebaseapp.com',
+    storageBucket: 'coding-658e2.appspot.com',
+    measurementId: 'G-FV5213JEVE',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCOmAo5e53ElOmQ_3GH9dnP5SrQSVk_3Ag',
-    appId: '1:1000195572808:android:15f26aaba2cb336234847d',
-    messagingSenderId: '1000195572808',
-    projectId: 'codingsolutionedu-b4282',
-    databaseURL: 'https://codingsolutionedu-b4282-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'codingsolutionedu-b4282.appspot.com',
+    apiKey: 'AIzaSyAOIQaE5PvOPSPrrYTVpQKJwhYk20FwRBI',
+    appId: '1:831709560001:android:ceadc1770702b531f52840',
+    messagingSenderId: '831709560001',
+    projectId: 'coding-658e2',
+    storageBucket: 'coding-658e2.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBpYjRwltS5FNZSnYW9v_df1QHUME9RvMc',
-    appId: '1:1000195572808:ios:35fc0abe6d5169fb34847d',
-    messagingSenderId: '1000195572808',
-    projectId: 'codingsolutionedu-b4282',
-    databaseURL: 'https://codingsolutionedu-b4282-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'codingsolutionedu-b4282.appspot.com',
-    iosClientId: '1000195572808-g3mgage2qcfmjvkfqno1rdg8o2j5hrfo.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDuwN9gmMJMxYQ55xhAiwBZy4hzFnl4300',
+    appId: '1:831709560001:ios:1939232c79ff2444f52840',
+    messagingSenderId: '831709560001',
+    projectId: 'coding-658e2',
+    storageBucket: 'coding-658e2.appspot.com',
+    iosClientId: '831709560001-n65upiu1op4t5oprdvo8masmb19pftnl.apps.googleusercontent.com',
     iosBundleId: 'com.example.usCourse',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBpYjRwltS5FNZSnYW9v_df1QHUME9RvMc',
-    appId: '1:1000195572808:ios:35fc0abe6d5169fb34847d',
-    messagingSenderId: '1000195572808',
-    projectId: 'codingsolutionedu-b4282',
-    databaseURL: 'https://codingsolutionedu-b4282-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'codingsolutionedu-b4282.appspot.com',
-    iosClientId: '1000195572808-g3mgage2qcfmjvkfqno1rdg8o2j5hrfo.apps.googleusercontent.com',
-    iosBundleId: 'com.example.usCourse',
+    apiKey: 'AIzaSyDuwN9gmMJMxYQ55xhAiwBZy4hzFnl4300',
+    appId: '1:831709560001:ios:3fb24f09913e59b7f52840',
+    messagingSenderId: '831709560001',
+    projectId: 'coding-658e2',
+    storageBucket: 'coding-658e2.appspot.com',
+    iosClientId: '831709560001-ej00re6hh4g78s0auq9s5bhbrhcjdro9.apps.googleusercontent.com',
+    iosBundleId: 'com.example.codingsolutionedu',
   );
 }
