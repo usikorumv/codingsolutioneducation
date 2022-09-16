@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codingsolution/core/core.dart';
 import 'package:codingsolution/features/codingsolution/data/data.dart';
 import 'package:codingsolution/features/codingsolution/domain/usecases/courses/get_courses.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class CoursesRemoteDatasource {
   Future<CoursesResponse> courses(CoursesParams registerParams);
@@ -17,11 +16,8 @@ class FirebaseCoursesRemoteDatasource implements CoursesRemoteDatasource {
       QuerySnapshot querySnapshot = await courses.get();
       final data = querySnapshot.docs.map((doc) => doc.data()).toList();
 
-      print(data);
-
       return CoursesResponse.fromJson(data);
     } catch (e, s) {
-      print("$e\n$s");
       throw ServerFailure("$e\n$s");
     }
   }

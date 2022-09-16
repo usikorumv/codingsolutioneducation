@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:codingsolution/common/constants.dart';
 import 'package:codingsolution/features/codingsolution/domain/domain.dart';
 import 'package:codingsolution/features/codingsolution/presentation/pages/auth/login_page.dart';
-import 'package:codingsolution/features/codingsolution/presentation/presentation.dart';
+
 import 'package:codingsolution/main.dart';
 import 'package:codingsolution/utils/utils.dart';
 
@@ -296,7 +296,7 @@ class _RegisterCardState extends State<RegisterCard> {
                       ),
                     ),
                     validator: (String? value) => value != null
-                        ? (value.length < 3 ? "Can\'t be empty" : null)
+                        ? (value.length < 3 ? "Can't be empty" : null)
                         : null,
                   ),
                 ),
@@ -347,7 +347,7 @@ class _RegisterCardState extends State<RegisterCard> {
                       ),
                     ),
                     validator: (String? value) => value != null
-                        ? (value.length < 3 ? "Can\'t be empty" : null)
+                        ? (value.length < 3 ? "Can't be empty" : null)
                         : null,
                   ),
                 ),

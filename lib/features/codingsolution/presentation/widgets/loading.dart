@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 ///*********************************************
 /// © 2020 | All Right Reserved
 class Loading extends StatelessWidget {
-  const Loading({this.showMessage = true});
+  const Loading({super.key, this.showMessage = true});
 
   final bool showMessage;
 

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 import 'package:codingsolution/common/styles.dart';
-import 'package:codingsolution/features/codingsolution/domain/domain.dart';
 import 'package:codingsolution/features/codingsolution/presentation/pages/auth/cubit/cubit/user_info_cubit.dart';
 
 import 'package:codingsolution/features/codingsolution/presentation/pages/auth/user_info_page.dart';
@@ -10,7 +9,6 @@ import 'package:codingsolution/features/codingsolution/presentation/pages/course
 import 'package:codingsolution/features/codingsolution/presentation/pages/main_pages/main_page.dart';
 import 'package:codingsolution/firebase_options.dart';
 import 'package:codingsolution/service_locator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -74,7 +74,6 @@ class FirebaseAuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       data.addAll(
         {
           "date": date,
-          "referer": "${data['name']} ${data['surname']}",
         },
       );
 

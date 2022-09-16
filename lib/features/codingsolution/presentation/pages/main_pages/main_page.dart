@@ -1,10 +1,8 @@
 import 'package:codingsolution/common/constants.dart';
 import 'package:codingsolution/common/globals.dart';
 import 'package:codingsolution/features/codingsolution/presentation/pages/courses/courses_page.dart';
-import 'package:codingsolution/features/codingsolution/presentation/pages/enrolled_courses_page.dart';
 import 'package:codingsolution/features/codingsolution/presentation/pages/home/home_page.dart';
 import 'package:codingsolution/features/codingsolution/presentation/widgets/drawer/drawer.dart';
-import 'package:codingsolution/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -44,7 +42,7 @@ class MainPage extends StatelessWidget {
               if (!isSmallScreen) MainDrawer(controller: _controller),
               Expanded(
                 child: Center(
-                  child: _MainSreen(
+                  child: _MainScreen(
                     controller: _controller,
                   ),
                 ),
@@ -57,8 +55,8 @@ class MainPage extends StatelessWidget {
   }
 }
 
-class _MainSreen extends StatelessWidget {
-  const _MainSreen({
+class _MainScreen extends StatelessWidget {
+  const _MainScreen({
     Key? key,
     required this.controller,
   }) : super(key: key);

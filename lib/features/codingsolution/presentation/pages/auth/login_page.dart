@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:codingsolution/common/constants.dart';
 import 'package:codingsolution/features/codingsolution/domain/domain.dart';
-import 'package:codingsolution/features/codingsolution/presentation/presentation.dart';
 import 'package:codingsolution/main.dart';
 import 'package:codingsolution/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                       "assets/images/coding_logo.png",
                       scale: 3.25,
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Text(
                       'CODINGSOLUTION',
                       style: GoogleFonts.roboto(
@@ -78,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                 Column(
                   children: [
                     const SizedBox(height: 150),
-                    LoginCard(),
+                    const LoginCard(),
                     const SizedBox(height: 25),
                     Row(
                       children: [
@@ -119,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                             "assets/images/coding_logo.png",
                             scale: 4,
                           ),
-                          SizedBox(height: 30),
+                          const SizedBox(height: 30),
                           AutoSizeText(
                             'CODINGSOLUTION',
                             maxLines: 1,
@@ -139,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                       const SizedBox(height: 40),
-                      LoginCard(),
+                      const LoginCard(),
                       const SizedBox(height: 30),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -207,7 +206,7 @@ class _LoginCardState extends State<LoginCard> {
       elevation: 10,
       child: Container(
         width: 430,
-        constraints: BoxConstraints(minHeight: 360),
+        constraints: const BoxConstraints(minHeight: 360),
         padding: const EdgeInsets.all(10.0),
         child: AutofillGroup(
           child: Form(
@@ -215,9 +214,9 @@ class _LoginCardState extends State<LoginCard> {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: TextFormField(
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                     controller: _conEmail,
                     key: const Key("email"),
                     autocorrect: true,
@@ -237,7 +236,7 @@ class _LoginCardState extends State<LoginCard> {
                         ),
                       ),
                       hintText: 'Email',
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.black45,
                         fontWeight: FontWeight.bold,
@@ -249,9 +248,9 @@ class _LoginCardState extends State<LoginCard> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   child: TextFormField(
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                     autofillHints: const [AutofillHints.password],
                     textInputAction: TextInputAction.done,
                     keyboardType: TextInputType.text,
@@ -272,7 +271,7 @@ class _LoginCardState extends State<LoginCard> {
                         ),
                       ),
                       hintText: 'Password',
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         fontSize: 16,
                         color: Colors.black45,
                         fontWeight: FontWeight.bold,
@@ -295,7 +294,7 @@ class _LoginCardState extends State<LoginCard> {
                       ),
                     ),
                     validator: (String? value) => value != null
-                        ? (value.length < 3 ? "Can\'t be empty" : null)
+                        ? (value.length < 3 ? "Can't be empty" : null)
                         : null,
                   ),
                 ),
@@ -303,12 +302,12 @@ class _LoginCardState extends State<LoginCard> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                             top: 9.0, bottom: 15.0, left: 9.0, right: 9.0),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               backgroundColor: kPrimaryColor),
-                          child: SizedBox(
+                          child: const SizedBox(
                             height: 50,
                             child: Center(
                               child: Text(
@@ -343,10 +342,10 @@ class _LoginCardState extends State<LoginCard> {
                 ),
                 Container(
                   padding: const EdgeInsets.all(8.0),
-                  margin: EdgeInsets.symmetric(horizontal: 50),
+                  margin: const EdgeInsets.symmetric(horizontal: 50),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff5eb64c),
+                      backgroundColor: const Color(0xff5eb64c),
                     ),
                     child: SizedBox(
                       height: 50,

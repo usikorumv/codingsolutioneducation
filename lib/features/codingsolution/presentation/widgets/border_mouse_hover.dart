@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 
 import '../../../../common/app_colors.dart';
 
+
 class BorderMouseHover extends StatefulWidget {
   const BorderMouseHover({Key? key, required this.builder}) : super(key: key);
   final Widget Function(BuildContext, double) builder;
 
   @override
-  _BorderMouseHoverState createState() => _BorderMouseHoverState();
+  State<BorderMouseHover> createState() => _BorderMouseHoverState();
 }
 
 class _BorderMouseHoverState extends State<BorderMouseHover>

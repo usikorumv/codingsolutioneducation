@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:codingsolution/common/constants.dart';
-import 'package:codingsolution/features/codingsolution/domain/domain.dart';
 import 'package:codingsolution/features/codingsolution/domain/usecases/auth/post_user_info.dart';
 
 import 'package:codingsolution/features/codingsolution/presentation/pages/auth/login_page.dart';
@@ -72,7 +71,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 Column(
                   children: [
                     const SizedBox(height: 150),
-                    UserInfoCard(),
+                    const UserInfoCard(),
                     const SizedBox(height: 25),
                     Text(
                       'Fill Forms',
@@ -121,7 +120,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         ],
                       ),
                       const SizedBox(height: 40),
-                      UserInfoCard(),
+                      const UserInfoCard(),
                       const SizedBox(height: 30),
                       Text(
                         'Fill Forms',
@@ -155,11 +154,13 @@ class _UserInfoCardState extends State<UserInfoCard> {
   /// Controller
   final _conName = TextEditingController();
   final _conSurname = TextEditingController();
+  final _conReferer = TextEditingController();
   final _conPhone = TextEditingController();
 
   /// Focus Node
   final _fnName = FocusNode();
   final _fnSuname = FocusNode();
+  final _fnReferer = FocusNode();
   final _fnPhone = FocusNode();
 
   /// Global key form
@@ -255,6 +256,41 @@ class _UserInfoCardState extends State<UserInfoCard> {
                   padding: const EdgeInsets.all(10),
                   child: TextFormField(
                     style: const TextStyle(color: Colors.black),
+                    controller: _conReferer,
+                    key: const Key("referer"),
+                    autocorrect: true,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.text,
+                    focusNode: _fnReferer,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey[300]!,
+                        ),
+                      ),
+                      hintText: 'Referer',
+                      hintStyle: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black45,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    validator: (String? value) => value != null
+                        ? value.isEmpty
+                            ? "Field cannot be form"
+                            : null
+                        : null,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: TextFormField(
+                    style: const TextStyle(color: Colors.black),
                     controller: _conPhone,
                     key: const Key("phone"),
                     autocorrect: true,
@@ -315,6 +351,7 @@ class _UserInfoCardState extends State<UserInfoCard> {
                                     UserInfoParams(
                                       name: _conName.text,
                                       surname: _conSurname.text,
+                                      referer: _conReferer.text,
                                       phone: _conPhone.text,
                                     ),
                                   );
@@ -325,34 +362,6 @@ class _UserInfoCardState extends State<UserInfoCard> {
                     ),
                   ],
                 ),
-                // Divider(
-                //   height: 30,
-                //   color: Colors.grey[300],
-                // ),
-                // Container(
-                //   padding: const EdgeInsets.all(8.0),
-                //   margin: EdgeInsets.symmetric(horizontal: 50),
-                //   child: ElevatedButton(
-                //     style: ElevatedButton.styleFrom(
-                //       backgroundColor: Color(0xff5eb64c),
-                //     ),
-                //     child: SizedBox(
-                //       height: 50,
-                //       child: Center(
-                //         child: Text(
-                //           'Back to Log In',
-                //           style: GoogleFonts.roboto(
-                //               fontSize: 20,
-                //               color: Colors.white,
-                //               fontWeight: FontWeight.bold),
-                //         ),
-                //       ),
-                //     ),
-                //     onPressed: () {
-                //       context.goNamed(Routes.login.name);
-                //     },
-                //   ),
-                // ),
               ],
             ),
           ),

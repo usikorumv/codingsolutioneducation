@@ -14,17 +14,19 @@ class PostUserInfo extends UseCase<UserInfo, UserInfoParams> {
 }
 
 class UserInfoParams {
-  final String name, surname, phone;
+  final String name, surname, phone, referer;
 
   UserInfoParams({
     required this.name,
     required this.surname,
     required this.phone,
+    required this.referer,
   });
 
   Map<String, dynamic> toJson() => {
         "name": name,
         "surname": surname,
         "phone": phone,
+        "referer": referer,
       };
 }

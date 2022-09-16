@@ -113,8 +113,7 @@ class _CoursesState extends State<Courses> {
                                 : const AssetImage("assets/images/.png")
                                     as ImageProvider,
                             title: currentCourse.title ?? "Title",
-                            description:
-                                "${currentCourse.metadata1 ?? ""}\n${currentCourse.metadata2 ?? ""}",
+                            description: currentCourse.metadata1 ?? "",
                             tags: ['Salesforce'],
                             metadata1: '14 SEP 2022',
                             metadata2: '',
@@ -142,9 +141,9 @@ class _CoursesState extends State<Courses> {
                           : const AssetImage("assets/images/staff.png")
                               as ImageProvider,
                       title: currentCourse.title ?? "Title",
-                      description: '',
+                      description: currentCourse.metadata1 ?? "",
                       tags: ['Salesforce'],
-                      metadata1: '',
+                      metadata1: '14 SEP 2022',
                       metadata2: '',
                     ),
                   ),

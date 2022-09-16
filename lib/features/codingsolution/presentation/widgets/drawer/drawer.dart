@@ -70,16 +70,16 @@ class MainDrawer extends StatelessWidget {
           ),
         );
       },
-      items: [
+      items: const [
         SidebarXItem(
           icon: Icons.home,
           label: 'Home',
         ),
-        const SidebarXItem(
+        SidebarXItem(
           icon: Icons.book,
           label: 'Courses',
         ),
-        const SidebarXItem(
+        SidebarXItem(
           icon: Icons.logout,
           label: 'Log Out',
         ),

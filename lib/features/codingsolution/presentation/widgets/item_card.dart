@@ -1,5 +1,4 @@
 import 'package:codingsolution/features/codingsolution/presentation/widgets/border_mouse_hover.dart';
-import 'package:codingsolution/features/codingsolution/presentation/widgets/constants/constants.dart';
 import 'package:codingsolution/features/codingsolution/presentation/widgets/tags.dart';
 import 'package:flutter/material.dart';
 
@@ -105,7 +104,7 @@ class ItemMetadataWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: Responsive with LayoutBuilder
     return Text(
-      '$startText',
+      startText,
       // '$startText | $endText',
       textAlign: TextAlign.left,
       style:

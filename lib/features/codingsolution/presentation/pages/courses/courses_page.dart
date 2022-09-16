@@ -12,7 +12,7 @@ class CoursesPage extends StatelessWidget {
     // Size size = MediaQuery.of(context).size;
 
     return Column(
-      children: [
+      children: const [
         Courses(),
         Footer(),
       ],

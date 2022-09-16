@@ -13,10 +13,10 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: mentors.length,
       itemBuilder: (_, index) => StaffMembersInfo(mentor: mentors[index]),
-      separatorBuilder: (_, index) => SizedBox(height: 60),
+      separatorBuilder: (_, index) => const SizedBox(height: 60),
     );
   }
 }
@@ -28,8 +28,6 @@ class StaffMembersInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(mentor.imageUrl);
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 60),
       child: ResponsiveWidget(

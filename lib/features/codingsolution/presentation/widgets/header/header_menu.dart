@@ -1,4 +1,3 @@
-
 import 'package:codingsolution/common/styles.dart';
 import 'package:codingsolution/features/codingsolution/data/data_sources/local/data_helpers/header_items.dart';
 import 'package:codingsolution/features/codingsolution/presentation/getx/main_page_changer.dart';
@@ -7,54 +6,47 @@ import 'package:get/get.dart' as getx;
 import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-
-
 class HeaderRow extends StatelessWidget {
-  const HeaderRow({Key? key,required this.setIndex}) : super(key: key);
-final Function setIndex;
+  const HeaderRow({Key? key, required this.setIndex}) : super(key: key);
+  final Function setIndex;
 
   static List<NameOnTap> get headerItems => [
-    NameOnTap(
-      title: "Home",
-      iconData: Icons.home,
-      onTap: () {print('object');},
-    ),
-    NameOnTap(
-      title: "Services",
-      onTap: () {
-
-      },
-      iconData: Icons.school,
-    ),
-    NameOnTap(
-      title: "About",
-      onTap: () {},
-      iconData: Icons.info,
-    ),
-
-    NameOnTap(
-      title: "Enrol",
-      onTap: () {},
-      iconData: Icons.work,
-    ),
-    NameOnTap(
-      title: "Contact",
-      onTap: () {},
-      iconData: Icons.contact_mail,
-    ),
-    NameOnTap(
-      title: "Course",
-      onTap: () {
-
-      },
-      iconData: Icons.article,
-    ),
-
-  ];
+        NameOnTap(
+          title: "Home",
+          iconData: Icons.home,
+          onTap: () {},
+        ),
+        NameOnTap(
+          title: "Services",
+          onTap: () {},
+          iconData: Icons.school,
+        ),
+        NameOnTap(
+          title: "About",
+          onTap: () {},
+          iconData: Icons.info,
+        ),
+        NameOnTap(
+          title: "Enrol",
+          onTap: () {},
+          iconData: Icons.work,
+        ),
+        NameOnTap(
+          title: "Contact",
+          onTap: () {},
+          iconData: Icons.contact_mail,
+        ),
+        NameOnTap(
+          title: "Course",
+          onTap: () {},
+          iconData: Icons.article,
+        ),
+      ];
 
   @override
   Widget build(BuildContext context) {
     final pageIndexController = Get.put(PageIndexController());
+
     return ResponsiveVisibility(
       visible: false,
       visibleWhen: const [
@@ -64,25 +56,22 @@ final Function setIndex;
         ...headerItems
             .map(
               (item) => MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: Container(
-              margin: const EdgeInsets.only(right: 30.0),
-              child: GestureDetector(
-                onTap: () {
-                  pageIndexController.setIndex(1);
-                  item.onTap();
-
-
-
-                },
-                child: Text(
-                  item.title,
-                  style: menuTextStyle(MediaQuery.of(context).size.width),
+                cursor: SystemMouseCursors.click,
+                child: Container(
+                  margin: const EdgeInsets.only(right: 30.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      pageIndexController.setIndex(1);
+                      item.onTap();
+                    },
+                    child: Text(
+                      item.title,
+                      style: menuTextStyle(MediaQuery.of(context).size.width),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        )
+            )
             .toList(),
       ]),
     );

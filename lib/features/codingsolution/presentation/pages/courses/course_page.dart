@@ -87,32 +87,29 @@ class _CoursePageState extends State<CoursePage> {
                     ),
                     const SizedBox(width: 30),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: RichText(
-                        text: const TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "Coding Solution ",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                              ),
+                      padding: const EdgeInsets.only(top: 18),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          AutoSizeText(
+                            "Coding Solution ",
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: "Education",
-                                  style: TextStyle(
-                                    color: Colors.amber,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
+                          ),
+                          AutoSizeText(
+                            "Education",
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: Colors.amber,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
