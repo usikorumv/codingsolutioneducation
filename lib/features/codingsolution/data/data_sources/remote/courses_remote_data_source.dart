@@ -11,11 +11,13 @@ abstract class CoursesRemoteDatasource {
 class FirebaseCoursesRemoteDatasource implements CoursesRemoteDatasource {
   @override
   Future<CoursesResponse> courses(CoursesParams registerParams) async {
-    try {      
-      final courses = database.collection("courses");
+    try {
+      final courses = FirebaseFirestore.instance.collection("courses");
 
       QuerySnapshot querySnapshot = await courses.get();
       final data = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+      print(data);
 
       return CoursesResponse.fromJson(data);
     } catch (e, s) {
@@ -23,10 +25,6 @@ class FirebaseCoursesRemoteDatasource implements CoursesRemoteDatasource {
       throw ServerFailure("$e\n$s");
     }
   }
-
-  DocumentReference get database => FirebaseFirestore.instance
-      .collection('database')
-      .doc("Mk7qmrqXD2p2Qre0z3MO");
 }
 
 // class CodingSolutionCourseRemoteDatasourceImpl

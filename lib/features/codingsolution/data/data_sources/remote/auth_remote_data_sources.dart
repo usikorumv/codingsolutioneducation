@@ -62,7 +62,7 @@ class FirebaseAuthRemoteDatasourceImpl implements AuthRemoteDatasource {
   @override
   Future<UserInfoResponse> userInfo(UserInfoParams userInfoParams) async {
     try {
-      final users = database.collection("users");
+      final users = FirebaseFirestore.instance.collection("users");
 
       Map<String, dynamic> data = userInfoParams.toJson();
 
@@ -85,8 +85,4 @@ class FirebaseAuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       throw ServerException(e.message);
     }
   }
-
-  DocumentReference get database => FirebaseFirestore.instance
-      .collection('database')
-      .doc("Mk7qmrqXD2p2Qre0z3MO");
 }
