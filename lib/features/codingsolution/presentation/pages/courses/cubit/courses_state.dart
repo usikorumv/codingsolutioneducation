@@ -14,11 +14,13 @@ class CoursesLoading extends CoursesState {}
 class CoursesSuccess extends CoursesState {
   final Courses? courses;
 
-  CoursesSuccess({this.courses});
+  const CoursesSuccess({this.courses});
 }
 
 class CoursesFailure extends CoursesState {
   final String? message;
 
-  CoursesFailure({this.message});
+  const CoursesFailure({this.message});
 }
+
+class CoursesEmpty extends CoursesState {}

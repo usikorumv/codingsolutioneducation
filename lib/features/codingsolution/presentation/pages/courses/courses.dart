@@ -34,7 +34,41 @@ class _CoursesState extends State<Courses> {
         }
 
         if (state is CoursesFailure) {
-          return const SizedBox();
+          return Padding(
+            padding: const EdgeInsets.only(top: 50, left: 50),
+            child: Column(
+              children: [
+                const Icon(
+                  Icons.error,
+                  size: 40,
+                  color: Colors.grey,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "Error: ${state.message}",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        if (state is CoursesEmpty) {
+          return const Padding(
+            padding: EdgeInsets.only(bottom: 30),
+            child: Center(
+              child: Text(
+                "No more courses to load",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                ),
+              ),
+            ),
+          );
         }
 
         if (state is CoursesSuccess) {
