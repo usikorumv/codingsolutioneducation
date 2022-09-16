@@ -209,8 +209,11 @@ class _UserInfoCardState extends State<UserInfoCard> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    validator: (String? value) =>
-                        value == null ? "Field cannot be form" : null,
+                    validator: (String? value) => value != null
+                        ? value.isEmpty
+                            ? "Field cannot be form"
+                            : null
+                        : null,
                   ),
                 ),
                 Container(
@@ -241,8 +244,11 @@ class _UserInfoCardState extends State<UserInfoCard> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    validator: (String? value) =>
-                        value == null ? "Field cannot be form" : null,
+                    validator: (String? value) => value != null
+                        ? value.isEmpty
+                            ? "Field cannot be form"
+                            : null
+                        : null,
                   ),
                 ),
                 Container(
@@ -273,8 +279,11 @@ class _UserInfoCardState extends State<UserInfoCard> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    validator: (String? value) =>
-                        value == null ? "Field cannot be form" : null,
+                    validator: (String? value) => value != null
+                        ? value.isEmpty
+                            ? "Field cannot be form"
+                            : null
+                        : null,
                   ),
                 ),
                 Row(
