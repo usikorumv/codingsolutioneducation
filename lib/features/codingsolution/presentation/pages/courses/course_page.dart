@@ -181,31 +181,27 @@ class _CoursePageState extends State<CoursePage> {
               ),
             ),
             const SizedBox(height: 70),
-            Builder(
-              builder: (context) {
-                if (course.timetable != null) {
-                  return Column(
-                    children: [
-                      Text(
-                        course.timetable!.title!,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      TimetableAndSyllabuses(
-                        timetable: course.timetable!,
-                      ),
-                      const SizedBox(height: 50),
-                    ],
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
+            if (course.timetable != null)
+              Column(
+                children: [
+                  Text(
+                    course.timetable!.title!,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  TimetableAndSyllabuses(
+                    timetable: course.timetable!,
+                  ),
+                  const SizedBox(height: 50),
+                ],
+              )
+            else
+              const SizedBox.shrink(),
             Text(
               "Mentors".toUpperCase(),
               textAlign: TextAlign.center,
@@ -237,13 +233,13 @@ class TimetableAndSyllabuses extends StatelessWidget {
     return ListView.separated(
       shrinkWrap: true,
       itemCount: timetable.syllabuses?.length ?? 0,
-      itemBuilder: (context, index) {
-        final syllabuses = timetable.syllabuses;
+      itemBuilder: (context, syllabusesIndex) {
+        final syllabuses = timetable.syllabuses?[syllabusesIndex];
 
         return Column(
           children: [
             Text(
-              syllabuses?[index].title ?? "Title",
+              syllabuses?.title ?? "Title",
               textAlign: TextAlign.center,
               style: const TextStyle(
                   fontSize: 30,
@@ -254,14 +250,16 @@ class TimetableAndSyllabuses extends StatelessWidget {
             Wrap(
               runSpacing: 20,
               spacing: 20,
-              children: List.generate(syllabuses?[index].syllabus?.length ?? 0,
-                  (index) {
-                final syllabus = syllabuses![index].syllabus;
+              children: List.generate(
+                syllabuses?.syllabus?.length ?? 0,
+                (syllabusIndex) {
+                  final syllabus = syllabuses?.syllabus?[syllabusIndex];
 
-                return TimetableSyllabus(
-                  syllabus: syllabus![index],
-                );
-              }),
+                  return TimetableSyllabus(
+                    syllabus: syllabus!,
+                  );
+                },
+              ),
             ),
           ],
         );
