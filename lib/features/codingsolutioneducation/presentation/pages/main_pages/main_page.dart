@@ -104,8 +104,8 @@ String _getTitleByIndex(int index) {
       return 'Home';
     case 1:
       return 'Courses';
-    // case 2:
-    //   return "Enrolled Courses";
+    case 2:
+      return "Profile";
     default:
       return 'Not found page';
   }

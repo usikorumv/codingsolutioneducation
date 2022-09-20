@@ -1,8 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:codingsolutioneducation/common/constants.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/domain.dart';
 import 'package:codingsolutioneducation/main.dart';
 import 'package:codingsolutioneducation/utils/utils.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffecf4fa),
       body: SingleChildScrollView(
         child: BlocListener<LoginCubit, LoginState>(
           listener: (_, state) {
@@ -32,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
             }
             if (state is LoginSuccess) {
               context.dismiss();
+              // TODO: See
               "Token: ${state.login?.token.toString().substring(0, 10)}..."
                   .toToastSuccess();
 
@@ -45,128 +46,17 @@ class _LoginPageState extends State<LoginPage> {
                   .toToastError();
             }
           },
-          child: ResponsiveWidget(
-            desktop: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      "assets/images/coding_logo.png",
-                      scale: 3.25,
-                    ),
-                    const SizedBox(height: 30),
-                    Text(
-                      'codingsolutioneducation',
-                      style: GoogleFonts.roboto(
-                          fontSize: 60,
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'EDUCATION',
-                      style: GoogleFonts.roboto(
-                        letterSpacing: 5,
-                        fontSize: 35,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    const SizedBox(height: 150),
-                    const LoginCard(),
-                    const SizedBox(height: 25),
-                    Row(
-                      children: [
-                        Text(
-                          'Log In',
-                          style: GoogleFonts.roboto(
-                              fontSize: 16,
-                              letterSpacing: 1.2,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          ' for starting to learn',
-                          style: GoogleFonts.roboto(
-                            letterSpacing: 1.2,
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 50),
-                  ],
-                ),
-              ],
-            ),
-            mobile: SafeArea(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 90),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            "assets/images/coding_logo.png",
-                            scale: 4,
-                          ),
-                          const SizedBox(height: 30),
-                          AutoSizeText(
-                            'codingsolutioneducation',
-                            maxLines: 1,
-                            style: GoogleFonts.roboto(
-                                fontSize: 50,
-                                color: kPrimaryColor,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 15),
-                          Text(
-                            'EDUCATION',
-                            style: GoogleFonts.roboto(
-                              fontSize: 35,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 40),
-                      const LoginCard(),
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Log In',
-                            style: GoogleFonts.roboto(
-                                fontSize: 16,
-                                letterSpacing: 1.2,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            ' for starting to learn',
-                            style: GoogleFonts.roboto(
-                              letterSpacing: 1.2,
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 100),
-                    ],
-                  ),
-                ),
+          child: Column(
+            children: [
+              const SizedBox(height: 150),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  LoginCard(),
+                ],
               ),
-            ),
+              const SizedBox(height: 50),
+            ],
           ),
         ),
       ),
@@ -213,6 +103,45 @@ class _LoginCardState extends State<LoginCard> {
             key: _keyForm,
             child: Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundColor: const Color(0xff5397d4),
+                      child: Image.asset(
+                        "assets/images/coding_logo.png",
+                        scale: 10,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Text(
+                      'Coding Solution',
+                      style: GoogleFonts.roboto(
+                        fontSize: 24,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  'Education App',
+                  style: GoogleFonts.roboto(
+                    fontSize: 22,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Start your journey with us',
+                  style: GoogleFonts.roboto(
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                ),
+                const SizedBox(height: 15),
                 Container(
                   padding: const EdgeInsets.all(10),
                   child: TextFormField(
@@ -290,6 +219,7 @@ class _LoginCardState extends State<LoginCard> {
                           _isPasswordHide
                               ? Icons.visibility_off
                               : Icons.visibility,
+                          color: const Color(0xff5397d4),
                         ),
                       ),
                     ),
@@ -306,19 +236,28 @@ class _LoginCardState extends State<LoginCard> {
                             top: 9.0, bottom: 15.0, left: 9.0, right: 9.0),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: kPrimaryColor),
-                          child: const SizedBox(
+                            backgroundColor: const Color(0xff5397d4),
+                          ),
+                          child: SizedBox(
                             height: 50,
-                            child: Center(
-                              child: Text(
-                                "Log In",
-                                style: TextStyle(
-                                  letterSpacing: 1.2,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(
+                                  Icons.login,
                                   color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
                                 ),
-                              ),
+                                SizedBox(width: 10),
+                                Text(
+                                  "Log In",
+                                  style: TextStyle(
+                                    letterSpacing: 1.2,
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           onPressed: () {
@@ -336,34 +275,31 @@ class _LoginCardState extends State<LoginCard> {
                     ),
                   ],
                 ),
-                Divider(
-                  height: 30,
-                  color: Colors.grey[300],
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  margin: const EdgeInsets.symmetric(horizontal: 50),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff5eb64c),
-                    ),
-                    child: SizedBox(
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          'Create New Account',
-                          style: GoogleFonts.roboto(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                const SizedBox(height: 15),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Don`t have a account?  ",
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(0.5),
                         ),
                       ),
-                    ),
-                    onPressed: () {
-                      context.goNamed(Routes.register.name);
-                    },
+                      TextSpan(
+                        text: "Register",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff5397d4),
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            context.goNamed(Routes.register.name);
+                          },
+                      ),
+                    ],
                   ),
                 ),
+                const SizedBox(height: 30),
               ],
             ),
           ),

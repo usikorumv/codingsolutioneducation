@@ -39,103 +39,17 @@ class _UserInfoPageState extends State<UserInfoPage> {
               state.message!.toToastError();
             }
           },
-          child: ResponsiveWidget(
-            desktop: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      "assets/images/coding_logo.png",
-                      scale: 3.25,
-                    ),
-                    const SizedBox(height: 30),
-                    Text(
-                      'codingsolutioneducation',
-                      style: GoogleFonts.roboto(
-                          fontSize: 60,
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'EDUCATION',
-                      style: GoogleFonts.roboto(
-                        letterSpacing: 5,
-                        fontSize: 35,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    const SizedBox(height: 150),
-                    const UserInfoCard(),
-                    const SizedBox(height: 25),
-                    Text(
-                      'Fill Forms',
-                      style: GoogleFonts.roboto(
-                          fontSize: 16,
-                          letterSpacing: 1.2,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 50),
-                  ],
-                ),
-              ],
-            ),
-            mobile: SafeArea(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 90),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            "assets/images/coding_logo.png",
-                            scale: 4,
-                          ),
-                          const SizedBox(height: 30),
-                          AutoSizeText(
-                            'codingsolutioneducation',
-                            maxLines: 1,
-                            style: GoogleFonts.roboto(
-                                fontSize: 55,
-                                color: kPrimaryColor,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 15),
-                          Text(
-                            'EDUCATION',
-                            style: GoogleFonts.roboto(
-                              fontSize: 35,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 40),
-                      const UserInfoCard(),
-                      const SizedBox(height: 30),
-                      Text(
-                        'Fill Forms',
-                        style: GoogleFonts.roboto(
-                            fontSize: 16,
-                            letterSpacing: 1.2,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 100),
-                    ],
-                  ),
-                ),
+          child: Column(
+            children: [
+              const SizedBox(height: 150),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  UserInfoCard(),
+                ],
               ),
-            ),
+              const SizedBox(height: 50),
+            ],
           ),
         ),
       ),
@@ -182,6 +96,45 @@ class _UserInfoCardState extends State<UserInfoCard> {
             key: _keyForm,
             child: Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundColor: const Color(0xff5397d4),
+                      child: Image.asset(
+                        "assets/images/coding_logo.png",
+                        scale: 10,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Text(
+                      'Coding Solution',
+                      style: GoogleFonts.roboto(
+                        fontSize: 24,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  'Education App',
+                  style: GoogleFonts.roboto(
+                    fontSize: 22,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  '',
+                  style: GoogleFonts.roboto(
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                ),
+                const SizedBox(height: 15),
                 Container(
                   padding: const EdgeInsets.all(10),
                   child: TextFormField(
