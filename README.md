@@ -1,4 +1,4 @@
-# codingsolution
+# codingsolutioneducation
 
 Coding Solution Education
 

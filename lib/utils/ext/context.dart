@@ -1,5 +1,5 @@
-import 'package:codingsolution/features/codingsolution/presentation/presentation.dart';
-import 'package:codingsolution/features/codingsolution/presentation/widgets/loading.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/presentation.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 extension ContextExtensions on BuildContext {

@@ -1,9 +1,8 @@
-import 'package:codingsolution/features/codingsolution/presentation/widgets/toast.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/widgets/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 
 import '../helper/common.dart';
-
 
 extension StringExtension on String {
   bool isValidEmail() {

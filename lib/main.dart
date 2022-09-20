@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
-import 'package:codingsolution/common/styles.dart';
-import 'package:codingsolution/features/codingsolution/presentation/pages/auth/cubit/cubit/user_info_cubit.dart';
+import 'package:codingsolutioneducation/common/styles.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/auth/cubit/cubit/user_info_cubit.dart';
 
-import 'package:codingsolution/features/codingsolution/presentation/pages/auth/user_info_page.dart';
-import 'package:codingsolution/features/codingsolution/presentation/pages/courses/cubit/courses_cubit.dart';
-import 'package:codingsolution/features/codingsolution/presentation/pages/main_pages/main_page.dart';
-import 'package:codingsolution/firebase_options.dart';
-import 'package:codingsolution/service_locator.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/auth/user_info_page.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/courses/cubit/courses_cubit.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/main_pages/main_page.dart';
+import 'package:codingsolutioneducation/firebase_options.dart';
+import 'package:codingsolutioneducation/service_locator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,10 +20,11 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'features/codingsolution/data/data_sources/local/auth_local_data_source.dart';
-import 'features/codingsolution/presentation/pages/auth/cubit/cubit.dart';
-import 'features/codingsolution/presentation/pages/auth/login_page.dart';
-import 'features/codingsolution/presentation/pages/auth/register_page.dart';
+import 'features/codingsolutioneducation/data/data_sources/local/auth_local_data_source.dart';
+import 'features/codingsolutioneducation/presentation/pages/auth/cubit/cubit.dart';
+import 'features/codingsolutioneducation/presentation/pages/auth/login_page.dart';
+import 'features/codingsolutioneducation/presentation/pages/auth/register_page.dart';
+
 // import 'dart:io' show Platform;
 // import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -73,7 +74,7 @@ class Application extends StatelessWidget {
             AppRoute.setStream(context);
 
             return MaterialApp.router(
-              title: "Coding Solution",
+              title: "Coding Solution Education",
               debugShowCheckedModeBanner: false,
               routeInformationProvider:
                   AppRoute.router.routeInformationProvider,
