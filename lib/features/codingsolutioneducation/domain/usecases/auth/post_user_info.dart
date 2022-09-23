@@ -23,10 +23,12 @@ class UserInfoParams {
     required this.referer,
   });
 
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "surname": surname,
-        "phone": phone,
-        "referer": referer,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "surname": surname,
+      "phone": phone,
+      "referer": referer,
+    };
+  }
 }

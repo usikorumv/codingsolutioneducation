@@ -1,13 +1,16 @@
+import 'package:codingsolutioneducation/features/codingsolutioneducation/data/data.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/auth/login_page.dart';
+import 'package:codingsolutioneducation/service_locator.dart';
+import 'package:flutter/material.dart';
+import 'package:sidebarx/sidebarx.dart';
+
 import 'package:codingsolutioneducation/common/constants.dart';
 import 'package:codingsolutioneducation/common/globals.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/courses/courses_page.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/enrolled_courses/enrolled_courses_page.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/home/home_page.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/profile_page/profile_page.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/widgets/drawer/drawer.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sidebarx/sidebarx.dart';
-
-import '../auth/cubit/login/login_cubit.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
@@ -79,12 +82,10 @@ class _MainScreen extends StatelessWidget {
                 return const HomePage();
               case 1:
                 return const CoursesPage();
-              // case 2:
-              //   return const EnrolledCoursesPage();
               case 2:
-                context.read<LoginCubit>().logout();
-
-                return const SizedBox.shrink();
+                return const EnrolledCoursesPage();
+              case 3:
+                return const ProfilePage();
               default:
                 return Text(
                   pageTitle,
@@ -105,6 +106,8 @@ String _getTitleByIndex(int index) {
     case 1:
       return 'Courses';
     case 2:
+      return "Registered Courses";
+    case 3:
       return "Profile";
     default:
       return 'Not found page';

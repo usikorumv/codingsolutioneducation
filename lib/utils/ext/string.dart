@@ -5,6 +5,13 @@ import 'package:oktoast/oktoast.dart';
 import '../helper/common.dart';
 
 extension StringExtension on String {
+  bool isValidPhone() {
+    String pattern = r'^(?:[+0][1-9])?[0-9]{10,12}$';
+    RegExp regExp = RegExp(pattern);
+
+    return regExp.hasMatch(this.replaceAll(' ', ''));
+  }
+
   bool isValidEmail() {
     return RegExp(
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$',

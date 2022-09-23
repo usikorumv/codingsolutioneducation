@@ -5,8 +5,11 @@ import 'package:codingsolutioneducation/common/styles.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/auth/cubit/cubit/user_info_cubit.dart';
 
 import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/auth/user_info_page.dart';
-import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/courses/cubit/courses_cubit.dart';
-import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/main_pages/main_page.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/courses/cubit/courses/courses_cubit.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/courses/cubit/enrolled_courses/enrolled_courses_add_cubit.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/enrolled_courses/cubit/enrolled_courses_cubit.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/main_page.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/profile_page/cubit/user_cubit.dart';
 import 'package:codingsolutioneducation/firebase_options.dart';
 import 'package:codingsolutioneducation/service_locator.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -64,6 +67,9 @@ class Application extends StatelessWidget {
         BlocProvider(create: (_) => sl<RegisterCubit>()),
         BlocProvider(create: (_) => sl<UserInfoCubit>()),
         BlocProvider(create: (_) => sl<CoursesCubit>()),
+        BlocProvider(create: (_) => sl<UserCubit>()),
+        BlocProvider(create: (_) => sl<EnrolledCoursesAddCubit>()),
+        BlocProvider(create: (_) => sl<EnrolledCoursesCubit>()),
       ],
       child: OKToast(
         child: ScreenUtilInit(
@@ -160,6 +166,7 @@ class AppRoute {
       ),
     ),
     redirect: (GoRouterState state) {
+      // return null;
       final isLoginPage = state.subloc == Routes.login.path;
       final isRegisterPage = state.subloc == Routes.register.path;
       final isUserInfoPage = state.subloc == Routes.userInfo.path;

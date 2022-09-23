@@ -1,4 +1,5 @@
 import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/domain.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/auth/login_page.dart';
 
 import 'package:codingsolutioneducation/main.dart';
 import 'package:codingsolutioneducation/utils/utils.dart';
@@ -344,7 +345,14 @@ class _RegisterCardState extends State<RegisterCard> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            context.goNamed(Routes.login.name);
+                            // TODO: See
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginPage(),
+                              ),
+                            );
+                            // context.goNamed(Routes.login.name);
                           },
                       ),
                     ],

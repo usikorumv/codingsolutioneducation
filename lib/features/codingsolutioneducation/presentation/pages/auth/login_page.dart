@@ -1,4 +1,5 @@
 import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/domain.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/auth/register_page.dart';
 import 'package:codingsolutioneducation/main.dart';
 import 'package:codingsolutioneducation/utils/utils.dart';
 import 'package:flutter/gestures.dart';
@@ -293,7 +294,14 @@ class _LoginCardState extends State<LoginCard> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            context.goNamed(Routes.register.name);
+                            // TODO: See
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RegisterPage(),
+                              ),
+                            );
+                            // context.goNamed(Routes.register.name);
                           },
                       ),
                     ],

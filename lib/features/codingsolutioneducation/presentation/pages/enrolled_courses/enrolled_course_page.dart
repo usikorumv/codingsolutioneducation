@@ -1,26 +1,22 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/domain.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/entities/courses/timetable.dart';
-import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/usecases/courses/post_enrolled_course.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/about_page.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/auth/login_page.dart';
-import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/courses/cubit/enrolled_courses/enrolled_courses_add_cubit.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/widgets/footer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CoursePage extends StatefulWidget {
-  const CoursePage({super.key, required this.course});
+class EnrolledCoursePage extends StatefulWidget {
+  const EnrolledCoursePage({super.key, required this.course});
 
   final Course course;
 
   @override
-  State<CoursePage> createState() => _CoursePageState();
+  State<EnrolledCoursePage> createState() => _EnrolledCoursePageState();
 }
 
-class _CoursePageState extends State<CoursePage> {
+class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
   @override
   Widget build(BuildContext context) {
     final course = widget.course;
@@ -217,56 +213,6 @@ class _CoursePageState extends State<CoursePage> {
             const SizedBox(height: 10),
             AboutPage(
               mentors: course.mentors ?? [],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Spacer(),
-                BlocBuilder<EnrolledCoursesAddCubit, EnrolledCoursesAddState>(
-                  builder: (context, state) {
-                    if (state is EnrolledCourseAdding) {
-                      return const CircularProgressIndicator(); 
-                    }
-
-                    return ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff5397d4),
-                      ),
-                      child: SizedBox(
-                        height: 50,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.bookmark_add,
-                              color: Colors.white,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              "Enroll",
-                              style: TextStyle(
-                                letterSpacing: 1.2,
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      onPressed: () {
-                        context.read<EnrolledCoursesAddCubit>().enrolledCourse(
-                              PostEnrolledCoursesParams(
-                                  userId:
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                  courseId: "ToKDznSCC6gUEVJ5afPY"),
-                            );
-                      },
-                    );
-                  },
-                ),
-                Spacer(),
-              ],
             ),
             const SizedBox(height: 30),
             const Footer(),

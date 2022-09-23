@@ -1,12 +1,32 @@
-import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/domain.dart';
-import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/usecases/courses/get_courses.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/entities/entities.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/usecases/courses/get_enrolled_courses.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/auth/login_page.dart';
-import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/courses/course_page.dart';
-import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/courses/cubit/courses/courses_cubit.dart';
-
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/enrolled_courses/cubit/enrolled_courses_cubit.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/pages/enrolled_courses/enrolled_course_page.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/widgets/footer.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/presentation/widgets/item_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+class EnrolledCoursesPage extends StatefulWidget {
+  const EnrolledCoursesPage({super.key});
+
+  @override
+  State<EnrolledCoursesPage> createState() => _EnrolledCoursesPageState();
+}
+
+class _EnrolledCoursesPageState extends State<EnrolledCoursesPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        Courses(),
+        Footer(),
+      ],
+    );
+  }
+}
 
 class Courses extends StatefulWidget {
   const Courses({Key? key}) : super(key: key);
@@ -20,21 +40,23 @@ class _CoursesState extends State<Courses> {
   void initState() {
     super.initState();
 
-    context.read<CoursesCubit>().courses(CoursesParams());
+    context.read<EnrolledCoursesCubit>().courses(
+          EnrolledCoursesParams(FirebaseAuth.instance.currentUser!.uid),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CoursesCubit, CoursesState>(
+    return BlocBuilder<EnrolledCoursesCubit, EnrolledCoursesState>(
       builder: (context, state) {
-        if (state is CoursesLoading) {
+        if (state is EnrolledCoursesLoading) {
           return const Padding(
             padding: EdgeInsets.only(bottom: 120),
             child: CircularProgressIndicator(),
           );
         }
 
-        if (state is CoursesFailure) {
+        if (state is EnrolledCoursesFailure) {
           return Padding(
             padding: const EdgeInsets.only(top: 50, left: 50),
             child: Column(
@@ -57,7 +79,7 @@ class _CoursesState extends State<Courses> {
           );
         }
 
-        if (state is CoursesEmpty) {
+        if (state is EnrolledCoursesEmpty) {
           return const Padding(
             padding: EdgeInsets.only(bottom: 30),
             child: Center(
@@ -72,7 +94,7 @@ class _CoursesState extends State<Courses> {
           );
         }
 
-        if (state is CoursesSuccess) {
+        if (state is EnrolledCoursesSuccess) {
           final data = state.courses;
           final courses = data != null ? data.courses : <Course>[];
 
@@ -101,7 +123,7 @@ class _CoursesState extends State<Courses> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CoursePage(
+                              builder: (context) => EnrolledCoursePage(
                                 course: courses[index],
                               ),
                             ),
@@ -129,7 +151,7 @@ class _CoursesState extends State<Courses> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CoursePage(
+                        builder: (context) => EnrolledCoursePage(
                           course: courses[index],
                         ),
                       ),

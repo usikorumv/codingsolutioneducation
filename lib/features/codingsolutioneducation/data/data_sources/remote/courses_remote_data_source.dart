@@ -2,19 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codingsolutioneducation/core/core.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/data/data.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/usecases/courses/get_courses.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/usecases/courses/get_enrolled_courses.dart';
 
 abstract class CoursesRemoteDatasource {
   Future<CoursesResponse> courses(CoursesParams registerParams);
+
+  Future<CoursesResponse> enrolledCourses(
+      EnrolledCoursesParams enrolledCoursesParams);
+
+  // TODO: Change for params
+  Future<bool> addEnrolledCourse(String userId, String courseId);
 }
 
-// TODO: Change Exeption to Failure
 class FirebaseCoursesRemoteDatasource implements CoursesRemoteDatasource {
   @override
-  Future<CoursesResponse> courses(CoursesParams registerParams) async {
+  Future<CoursesResponse> courses(CoursesParams courseParams) async {
     try {
       final courses = FirebaseFirestore.instance.collection("courses");
 
-      QuerySnapshot querySnapshot = await courses.get();
+      final querySnapshot = await courses.get();
       final data = querySnapshot.docs.map((doc) => doc.data()).toList();
 
       return CoursesResponse.fromJson(data);
@@ -22,59 +28,52 @@ class FirebaseCoursesRemoteDatasource implements CoursesRemoteDatasource {
       throw ServerFailure("$e\n$s");
     }
   }
+
+  @override
+  Future<CoursesResponse> enrolledCourses(
+      EnrolledCoursesParams enrolledCoursesParams) async {
+    try {
+      final users = FirebaseFirestore.instance.collection("users");
+
+      final user = await users.doc(enrolledCoursesParams.id).get();
+
+      final enrolledCoursesId = user["enrolledCoursesId"];
+
+      if (enrolledCoursesId == null) {
+        throw NoDataFailure();
+      }
+
+      final courses = FirebaseFirestore.instance.collection("courses");
+
+      List data = [];
+
+      for (String id in enrolledCoursesId) {
+        data.add(await courses.doc(id).get());
+      }
+
+      return CoursesResponse.fromJson(data);
+    } catch (e, s) {
+      throw ServerFailure("$e\n$s");
+    }
+  }
+
+  @override
+  Future<bool> addEnrolledCourse(String userId, String courseId) async {
+    try {
+      final users = FirebaseFirestore.instance.collection("users");
+
+      final userDoc = users.doc(userId);
+      final user = await userDoc.get();
+
+      // TODO: See
+
+      await userDoc.update({
+        "enrolledCoursesId": [courseId]
+      });
+
+      return true;
+    } catch (e, s) {
+      throw ServerFailure("$e\n$s");
+    }
+  }
 }
-
-// class CodingSolutionCourseRemoteDatasourceImpl
-//     implements CoursesRemoteDatasource {
-//   final DioClient _client;
-
-//   CodingSolutionCourseRemoteDatasourceImpl(this._client);
-
-//   @override
-//   Future<CoursesResponse> courses(CoursesParams coursesParams) async {
-//     try {
-//       final Response response;
-
-//       if (coursesParams.showRegistered) {
-//         response = await _client.getRequest(
-//           "${Api.coursesRegister}/",
-//           queryParameters: coursesParams.toJson(),
-//         );
-//       } else {
-//         response = await _client.getRequest(
-//           "${Api.courses}/",
-//           queryParameters: coursesParams.toJson(),
-//         );
-//       }
-
-//       final result = CoursesResponse.fromJson(response.data);
-
-//       if (response.statusCode == 200) {
-//         return result;
-//       } else {
-//         throw ServerException("Error");
-//       }
-//     } on ServerException catch (e) {
-//       throw ServerException(e.message);
-//     }
-//   }
-
-//   @override
-//   Future<bool> courseRegister(RegisterCourseParams registerCourseParams) async {
-//     try {
-//       final response = await _client.postRequest(
-//         "${Api.courses}/",
-//         data: registerCourseParams.toJson(),
-//       );
-//       final result = RegisterResponse.fromJson(response.data);
-
-//       if (response.statusCode == 200 || response.statusCode == 201) {
-//         return true;
-//       } else {
-//         throw ServerException("Error");
-//       }
-//     } on ServerException catch (e) {
-//       throw ServerException(e.message);
-//     }
-//   }
-// }

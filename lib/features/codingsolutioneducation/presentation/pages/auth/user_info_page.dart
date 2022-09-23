@@ -22,6 +22,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffecf4fa),
       body: SingleChildScrollView(
         child: BlocListener<UserInfoCubit, UserInfoState>(
           listener: (context, state) {
@@ -96,44 +97,6 @@ class _UserInfoCardState extends State<UserInfoCard> {
             key: _keyForm,
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundColor: const Color(0xff5397d4),
-                      child: Image.asset(
-                        "assets/images/coding_logo.png",
-                        scale: 10,
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Text(
-                      'Coding Solution',
-                      style: GoogleFonts.roboto(
-                        fontSize: 24,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  'Education App',
-                  style: GoogleFonts.roboto(
-                    fontSize: 22,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  '',
-                  style: GoogleFonts.roboto(
-                    color: Colors.black.withOpacity(0.5),
-                  ),
-                ),
                 const SizedBox(height: 15),
                 Container(
                   padding: const EdgeInsets.all(10),
@@ -233,11 +196,6 @@ class _UserInfoCardState extends State<UserInfoCard> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    validator: (String? value) => value != null
-                        ? value.isEmpty
-                            ? "Field cannot be form"
-                            : null
-                        : null,
                   ),
                 ),
                 Container(
@@ -271,7 +229,9 @@ class _UserInfoCardState extends State<UserInfoCard> {
                     validator: (String? value) => value != null
                         ? value.isEmpty
                             ? "Field cannot be form"
-                            : null
+                            : value.isValidPhone()
+                                ? null
+                                : "Phone is not valid"
                         : null,
                   ),
                 ),
@@ -283,7 +243,7 @@ class _UserInfoCardState extends State<UserInfoCard> {
                             top: 9.0, bottom: 15.0, left: 9.0, right: 9.0),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: kPrimaryColor),
+                              backgroundColor: const Color(0xff5397d4)),
                           child: const SizedBox(
                             height: 50,
                             child: Center(
@@ -302,8 +262,9 @@ class _UserInfoCardState extends State<UserInfoCard> {
                             if (_keyForm.currentState?.validate() ?? false) {
                               context.read<UserInfoCubit>().userInfo(
                                     UserInfoParams(
-                                      name: _conName.text,
-                                      surname: _conSurname.text,
+                                      name: _conName.text.trim(),
+                                      surname: _conSurname.text.trim(),
+                                      // TODO: See
                                       referer: _conReferer.text,
                                       phone: _conPhone.text,
                                     ),
@@ -315,6 +276,14 @@ class _UserInfoCardState extends State<UserInfoCard> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 10),
+                Text(
+                  "Fill forms to finish Registration",
+                  style: TextStyle(
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                ),
+                const SizedBox(height: 15),
               ],
             ),
           ),

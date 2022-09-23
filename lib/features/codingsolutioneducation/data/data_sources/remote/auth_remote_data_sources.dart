@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:codingsolutioneducation/core/core.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/data/data.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/data/model/auth/user_info_response.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/data/model/users_response.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/domain.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/usecases/auth/get_user.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/usecases/auth/post_user_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
@@ -13,9 +15,10 @@ abstract class AuthRemoteDatasource {
   Future<LoginResponse> login(LoginParams loginParams);
 
   Future<UserInfoResponse> userInfo(UserInfoParams userInfo);
+
+  Future<UserResponse> user(UserParams userInfo);
 }
 
-// TODO: Change Exeption to Failure
 // TODO: Split this implementation with service
 class FirebaseAuthRemoteDatasourceImpl implements AuthRemoteDatasource {
   FirebaseAuthRemoteDatasourceImpl();
@@ -65,15 +68,16 @@ class FirebaseAuthRemoteDatasourceImpl implements AuthRemoteDatasource {
     try {
       final users = FirebaseFirestore.instance.collection("users");
 
-      Map<String, dynamic> data = userInfoParams.toJson();
+      final data = userInfoParams.toJson();
 
-      DateTime now = DateTime.now();
-      String date = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
+      final now = DateTime.now();
+      final date = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
 
-      String id = FirebaseAuth.instance.currentUser!.uid;
+      final id = FirebaseAuth.instance.currentUser!.uid;
 
       data.addAll(
         {
+          "email": FirebaseAuth.instance.currentUser!.email,
           "date": date,
         },
       );
@@ -81,6 +85,19 @@ class FirebaseAuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       await users.doc(id).set(data);
 
       return const UserInfoResponse(message: "User Info saved");
+    } on FirebaseAuthException catch (e) {
+      throw ServerException(e.message);
+    }
+  }
+
+  @override
+  Future<UserResponse> user(UserParams userParams) async {
+    try {
+      final users = FirebaseFirestore.instance.collection("users");
+
+      final user = await users.doc(userParams.id).get();
+
+      return UserResponse.fromJson(user);
     } on FirebaseAuthException catch (e) {
       throw ServerException(e.message);
     }

@@ -42,9 +42,7 @@ dependencies:
   auto_size_text: ^3.0.0
   
   sidebarx: ^0.11.0
-  
-  dio: ^4.0.6
-  retrofit: ^3.0.1+1
+
   url_launcher: ^6.0.20
   
   equatable: ^2.0.5

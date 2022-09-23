@@ -18,12 +18,11 @@ abstract class AuthLocalDataSource {
 
 const IS_REGISTERED = "IS_REGISTERED";
 const IS_LOGGED_IN = "IS_LOGGED_IN";
-const TOKEN = "TOKEN";
 
-class AuthLocalDataSourceImpl implements AuthLocalDataSource {
+class FirebaseAuthLocalDataSourceImpl implements AuthLocalDataSource {
   final SharedPreferences preferences;
 
-  AuthLocalDataSourceImpl({required this.preferences});
+  FirebaseAuthLocalDataSourceImpl({required this.preferences});
 
   @override
   set isRegistered(bool value) => preferences.setBool(IS_REGISTERED, value);
@@ -38,10 +37,10 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   bool get isLoggedIn => preferences.getBool(IS_LOGGED_IN) ?? false;
 
   @override
-  set token(String? value) => preferences.setString(TOKEN, value ?? "");
+  set token(String? value) => null;
 
   @override
-  String? get token => preferences.getString(TOKEN);
+  String? get token => null;
 
   @override
   void logout() {

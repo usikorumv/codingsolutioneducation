@@ -1,3 +1,5 @@
+import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/usecases/auth/get_user.dart';
+import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/entities/auth/users.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/usecases/auth/post_user_info.dart';
 import 'package:codingsolutioneducation/features/codingsolutioneducation/domain/entities/auth/user_info.dart';
 import 'package:dartz/dartz.dart';
@@ -40,6 +42,17 @@ class AuthRepositoryImpl implements AuthRepository {
       UserInfoParams userInfoParams) async {
     try {
       final response = await authRemoteDatasource.userInfo(userInfoParams);
+
+      return Right(response.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> user(UserParams userParams) async {
+    try {
+      final response = await authRemoteDatasource.user(userParams);
 
       return Right(response.toEntity());
     } on ServerException catch (e) {
